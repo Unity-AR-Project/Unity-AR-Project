@@ -2486,7 +2486,7 @@ MonoBehaviour:
       m_Calls: []
   m_SerializedLibrary: {fileID: 11400000, guid: e98253d7e32a9824bb272982a178f181,
     type: 2}
-  m_MaxNumberOfMovingImages: 4
+  m_MaxNumberOfMovingImages: 10
   m_TrackedImagePrefab: {fileID: 0}
 --- !u!114 &677149163
 MonoBehaviour:
@@ -2500,18 +2500,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42cdeceb0e1dccd4b87b940734d1f0fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - name: PigBook
+  pagePrefabs:
+  - name: chap1
     prefab: {fileID: 6798762013047686073, guid: d3d2c9d4b06ba894a8a4b97b6fc6e78e,
       type: 3}
-  - name: Dog
+    narration: {fileID: 8300000, guid: 37c22d1387929714aa22cfe767df032c, type: 3}
+  - name: chap2
     prefab: {fileID: 6798762013047686073, guid: 5b8b1f678b2a4fa42bc18a168a62538d,
       type: 3}
-  - name: Where
-    prefab: {fileID: 415906357880746847, guid: b87f8247a3d173e4a9c8bedf575ab9d3, type: 3}
-  - name: Princess
-    prefab: {fileID: 5348401831004984918, guid: 443d53006a7ff414c959f8e8c5ca9893,
+    narration: {fileID: 8300000, guid: da239e0d07ec94a479c51860fb84ce0f, type: 3}
+  - name: chap3
+    prefab: {fileID: 6798762013047686073, guid: 5e911da59a4a0824d85c9f2d25c0e144,
       type: 3}
+    narration: {fileID: 8300000, guid: 2cfa744d62a40fb44a4f3731ef8a2cd9, type: 3}
+  - name: chap4
+    prefab: {fileID: 6798762013047686073, guid: 8cde4aea7825ffe47885a81615b1ab2d,
+      type: 3}
+    narration: {fileID: 8300000, guid: 2e7e5b221d021ba40a1286f8ef346370, type: 3}
+  - name: chap5
+    prefab: {fileID: 6798762013047686073, guid: d759dc9adacc41a4ea6414517bcf1d14,
+      type: 3}
+    narration: {fileID: 8300000, guid: 5df5391e7a41e3a44b17e1998c3cf85d, type: 3}
+  - name: chap6
+    prefab: {fileID: 6798762013047686073, guid: 111b006ee614b564ea7e6980e8e38872,
+      type: 3}
+    narration: {fileID: 8300000, guid: 63f35ac652628f746813856631091d46, type: 3}
+  - name: chap7
+    prefab: {fileID: 6798762013047686073, guid: 4a831cb751d21094fa1d47277205b0db,
+      type: 3}
+    narration: {fileID: 8300000, guid: 13a66f8bb1adea94daa981ae69bd2909, type: 3}
+  - name: chap8
+    prefab: {fileID: 6798762013047686073, guid: 01fda1d270e6cde469fb7147b8fd7b11,
+      type: 3}
+    narration: {fileID: 8300000, guid: ca8c9e3e833b5854492a1f574c099c29, type: 3}
+  - name: chap9
+    prefab: {fileID: 6798762013047686073, guid: 613a14649e68bac42856a1edbb50c949,
+      type: 3}
+    narration: {fileID: 8300000, guid: a5a690484120882419c33b8e52a1286d, type: 3}
+  - name: chap10
+    prefab: {fileID: 6798762013047686073, guid: 1e4fcec922769b94baa87cc272a1e9c3,
+      type: 3}
+    narration: {fileID: 8300000, guid: 9dec25baa44d1044f8d8120b46a81b54, type: 3}
 --- !u!1 &690328644
 GameObject:
   m_ObjectHideFlags: 0

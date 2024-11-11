@@ -1,11 +1,15 @@
 using UnityEngine;
 
+/// <summary>
+/// 캐릭터의 애니메이션을 제어하는 클래스
+/// </summary>
 public class CorgiAnimation : MonoBehaviour
 {
     private Animator animator;
 
     private void Awake()
     {
+        // Animator 컴포넌트 가져오기
         animator = GetComponent<Animator>();
 
         if (animator == null)
@@ -24,6 +28,9 @@ public class CorgiAnimation : MonoBehaviour
         TriggerRunAnimation();
     }
 
+    /// <summary>
+    /// 'Run' 애니메이션을 트리거하는 메서드
+    /// </summary>
     private void TriggerRunAnimation()
     {
         if (animator != null)
