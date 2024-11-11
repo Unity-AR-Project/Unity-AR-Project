@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
+  m_Name: XR_TrackingImage1
+  m_EditorClassIdentifier: 
+  m_GuidLow: 4797760622635150850
+  m_GuidHigh: 4493532777261910412
+  m_DataStore:
+    m_Storage: []
+  m_Images:
+  - m_SerializedGuid:
+      m_GuidLow: 4903283270459518574
+      m_GuidHigh: 11252377053381333937
+    m_SerializedTextureGuid:
+      m_GuidLow: 9274174568707861319
+      m_GuidHigh: 7524807754909816905
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: PigBook
+    m_Texture: {fileID: 2800000, guid: 30cb2b477ca280b4491881f2c87c6d68, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 4948147664816013315
+      m_GuidHigh: 260728306196271531
+    m_SerializedTextureGuid:
+      m_GuidLow: 14471305665683017425
+      m_GuidHigh: 11347726698296789947
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: Dog
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5170277189873955086
+      m_GuidHigh: 12093659919444114605
+    m_SerializedTextureGuid:
+      m_GuidLow: 15705442489191382313
+      m_GuidHigh: 15684773369224107114
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: Where
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5648744571463457104
+      m_GuidHigh: 11488410256444787860
+    m_SerializedTextureGuid:
+      m_GuidLow: 10575672338054655423
+      m_GuidHigh: 8492840537278326826
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: Princess
+    m_Texture: {fileID: 0}
