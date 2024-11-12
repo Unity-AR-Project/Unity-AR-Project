@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5fa35dc22b818d549a2b2b32f2ca4fca
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 227359
+  packageName: Stylized Wolf - Forest Animal
+  packageVersion: 1.0
+  assetPath: Assets/Blink/Art/Animals/Stylized/Wolf/Wolf_Prefabs/WolfAnimator.controller
+  uploadId: 512487
