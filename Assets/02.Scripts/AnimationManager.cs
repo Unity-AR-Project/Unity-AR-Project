@@ -63,7 +63,7 @@ public class AnimationManager : MonoBehaviour
             animator.SetBool("IsBlow", false);
             StartCoroutine(PigCryAndRun());
         }
-        //셋째 집에서 무너지지 않음.
+        //셋째 집은 무너 지지 않음.
         if (blowCount == maxBlowCount)
         {
             isBroken = false;
@@ -82,12 +82,13 @@ public class AnimationManager : MonoBehaviour
             // 우는 애니메이션 길이만큼 대기
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
-            // 도망가기 애니메이션
+            // 돼지 도망가는(달리는) 애니메이션
             animator.SetTrigger("IsRun");
             // 도망가는 효과음 
         }
     }
 
+    //늑대 구현해야할 애니메이션 & 효과음
     void WolfClips()
     {
         //웃고
