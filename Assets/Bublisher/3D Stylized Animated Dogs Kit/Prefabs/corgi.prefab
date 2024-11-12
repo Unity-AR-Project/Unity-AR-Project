@@ -2977,6 +2977,7 @@ GameObject:
   - component: {fileID: 6349384442204505658}
   - component: {fileID: 4291414336234631490}
   - component: {fileID: -4699986096772920143}
+  - component: {fileID: -9221312247076757559}
   m_Layer: 0
   m_Name: corgi
   m_TagString: Untagged
@@ -3035,6 +3036,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 255efc554b214dc4da59bf4e4263b460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &-9221312247076757559
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4333106941318723275}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.44920418, y: 0.5549218, z: 0.7403817}
+  m_Center: {x: 0.0017781407, y: 0.2225391, z: 0.030732855}
 --- !u!1 &4373477958497510491
 GameObject:
   m_ObjectHideFlags: 0
