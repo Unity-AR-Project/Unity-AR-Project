@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.EventSystems;
+using System.Collections;
+using UnityEngine.XR.ARCore;
 
 /// <summary>
 /// 인식할 이미지의 이름과 생성할 프리팹, 나레이션 오디오를 정의하는 구조체
@@ -23,12 +25,14 @@ public struct PagePrefab
 public class ARImageMultipleObjectsSpawner : MonoBehaviour
 {
     private ARTrackedImageManager _trackedImageManager; // ARTrackedImageManager 컴포넌트를 참조
+    public ARSession arSession;
 
     [Tooltip("각 챕터 이미지에 대응하는 프리팹과 나레이션 오디오를 설정합니다.")]
     public PagePrefab[] pagePrefabs; // 각 챕터 이미지에 대한 프리팹과 오디오 설정 배열
 
     private Dictionary<string, GameObject> _spawnedPrefabs = new Dictionary<string, GameObject>(); // 스폰된 프리팹을 관리하는 딕셔너리
     private string _currentChapter = ""; // 현재 활성화된 챕터 이름을 저장
+
 
     /// <summary>
     /// 스크립트가 활성화되기 전에 호출되는 메서드
@@ -89,6 +93,8 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     {
         if (_trackedImageManager != null)
         {
+            RestartARSession();
+
             // 추적 이미지 변경 시 OnTrackedImagesChanged 메서드 호출
             _trackedImageManager.trackablesChanged.AddListener(OnTrackedImagesChanged);
         }
@@ -193,6 +199,10 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
         // 이미지가 추적 중인 경우
         if (trackedImage.trackingState == TrackingState.Tracking)
         {
+            //흔들림 현상을 줄이기 위해 프리팹 위치를 추적된 이미지 위치에 즉시 이동시키는 대신 Lerp 또는 SmoothDamp 함수를 사용하여 부드럽게 이동
+            //prefab.transform.position = Vector3.SmoothDamp(prefab.transform.position, trackedImage.transform.position, ref velocity, smoothTime);
+            //prefab.transform.rotation = Quaternion.Slerp(prefab.transform.rotation, trackedImage.transform.rotation, Time.deltaTime * 5f);
+
             // 프리팹의 위치와 회전을 업데이트
             prefab.transform.position = trackedImage.transform.position;
             prefab.transform.rotation = trackedImage.transform.rotation;
@@ -272,6 +282,31 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 }
                 break; // 해당 챕터를 찾았으므로 루프 종료
             }
+        }
+    }
+
+    // 기존 이미지가 사라져도 트래킹 상태가 유지되어 프리팹이 안사라지는 부분을 해결하기 위한 함수와 코루틴
+    private void RestartARSession()
+    {
+        StartCoroutine(RestartSessionCoroutine());
+    }
+
+    /// <summary>
+    /// AR Session을 껐다 키는 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RestartSessionCoroutine()
+    {
+        if (arSession != null)
+        {
+            arSession.enabled = false;  // AR 세션 비활성화
+            yield return null;          // 한 프레임 대기
+            arSession.enabled = true;   // AR 세션 다시 활성화
+            Debug.Log("AR 세션이 재시작되었습니다.");
+        }
+        else
+        {
+            Debug.LogWarning("ARSession 컴포넌트가 설정되지 않았습니다.");
         }
     }
 
