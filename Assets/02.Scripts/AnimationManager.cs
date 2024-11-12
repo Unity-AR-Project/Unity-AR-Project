@@ -45,22 +45,21 @@ public class AnimationManager : MonoBehaviour
         blowCount++;
         Debug.Log($"늑대가 바람을 불었습니다. 현재 바람 횟수: {blowCount}");
 
-        // 바람 애니메이션
-        animator.SetBool("IsBlow", true);
-        // 바람 사운드 추가
 
         //첫째 집에서는 한번에 무너져야함
         if (blowCount == 1)
         {
             isBroken = true;
-            animator.SetBool("IsBlow", false);
+            animator.SetBool("IsBlow", true);
+            // 바람 사운드 추가
             StartCoroutine(PigCryAndRun());
         }
         //둘째 집에서 두번째에 무너짐.
         if (blowCount == 2)
         {
             isBroken = true;
-            animator.SetBool("IsBlow", false);
+            animator.SetBool("IsBlow", true);
+            // 바람 사운드 추가
             StartCoroutine(PigCryAndRun());
         }
         //셋째 집은 무너 지지 않음.
