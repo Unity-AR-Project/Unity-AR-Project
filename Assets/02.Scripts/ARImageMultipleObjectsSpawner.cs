@@ -20,7 +20,6 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     public PagePrefabs[] prefabs; // 생성할 프리팹을 저장하는 배열
     private Dictionary<string, GameObject> spawnedPrefabs = new Dictionary<string, GameObject>(); // 이름을 키로 사용하는 프리팹 딕셔너리
 
-    public bool isHandling = false;
 
     private void Awake()
     {
@@ -81,6 +80,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     // 추적 중인 이미지를 기준으로 프리팹을 업데이트
     private void UpdateSpawned(ARTrackedImage img)
     {
+
         string name = img.referenceImage.name; // 추적 중인 이미지의 이름
         Debug.Log($"{img.referenceImage.name} 추가"); // 추가된 이미지 이름 로그 출력
         GameObject spawned = spawnedPrefabs[name]; // 딕셔너리에서 해당 이미지 이름에 대응하는 프리팹을 찾음
@@ -90,11 +90,6 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
         // 이미지가 잘 추적되고 있을 때만 업데이트 진행
         if (img.trackingState == TrackingState.Tracking)
         {
-            if(isHandling)
-            {
-                return;
-            }
-
             // 이미지의 위치와 회전 상태를 로그로 출력
             Debug.Log("Updating image " + img.referenceImage.name + " at " + img.transform.position);
 
