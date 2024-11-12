@@ -3,15 +3,25 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
-    public AnimationManager instance;
-    static void Awake() 
-    {
-        
-    }
+    public static AnimationManager instance;
+
     Animator animator;
     private bool isBroken = false; // 집이 부셔졌는지(날아갔는지) 여부
     private int blowCount = 0; // 늑대가 바람을 분 횟수
     private const int maxBlowCount = 3; // 최대 바람 횟수
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
