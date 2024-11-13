@@ -50,6 +50,11 @@ public class SelectObject : MonoBehaviour
                 }
             }
         }
+        // 터치로 corgi 선택 시 콜라이더를 비활성화합니다.
+        if (isTouched)
+        {
+            selectedObj.GetComponent<Collider>().enabled = false; // 선택된 객체의 콜라이더 비활성화
+        }
 
         if (touch.phase == TouchPhase.Moved && isTouched) // 터치가 이동 중이고 오브젝트가 선택되었을 때
         {
@@ -72,6 +77,7 @@ public class SelectObject : MonoBehaviour
         {
             if (selectedObj != null)
             {
+                selectedObj.GetComponent<Collider>().enabled = true; // 콜라이더 재활성화
                 isTouched = false; // 오브젝트 선택 해제
                 selectedObj.layer = LayerMask.NameToLayer("ARSelectable"); // 터치가 끝나면 오브젝트의 레이어를 ARSelectable로 설정
                 selectedObj.transform.position = initialPosition; // 오브젝트를 초기 위치로 되돌리기
