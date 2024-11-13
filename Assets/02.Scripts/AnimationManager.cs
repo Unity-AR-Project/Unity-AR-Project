@@ -6,9 +6,8 @@ public class AnimationManager : MonoBehaviour
     public static AnimationManager instance;
 
     Animator animator;
-    public ParticleSystem smoke; //파티클 시스템(연기);
     public ParticleSystem wind; //파티클 시스템(바람)
-    private bool isBroken = false; // 집이 부셔졌는지(날아갔는지) 여부
+    public bool isBroken = false; // 집이 부셔졌는지(날아갔는지) 여부
     private int blowCount = 0; // 늑대가 바람을 분 횟수
     private const int maxBlowCount = 3; // 최대 바람 횟수
 
@@ -28,9 +27,6 @@ public class AnimationManager : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        smoke.Play();
-        wind.Stop();
-        SoundManager.instance.PlaySFX("smoke");
     }
 
     private void Update()
@@ -44,7 +40,7 @@ public class AnimationManager : MonoBehaviour
     }
 
     // 늑대가 바람을 부는 함수
-    void PlayBlowWind()
+    public void BlowWind()
     {
         if (isBroken) return; // 이미 집이 부셔졌다면 더 이상 진행하지 않음
 
@@ -57,6 +53,7 @@ public class AnimationManager : MonoBehaviour
         {
             isBroken = true;
             wind.Play();
+            animator.SetBool("IsBroken", isBroken);
             // 바람 사운드 추가
             StartCoroutine(PigCryAndRun());
         }
@@ -65,6 +62,7 @@ public class AnimationManager : MonoBehaviour
         {
             isBroken = true;
             wind.Play();
+            animator.SetBool("IsBroken", isBroken);
             // 바람 사운드 추가
             StartCoroutine(PigCryAndRun());
         }
@@ -76,7 +74,7 @@ public class AnimationManager : MonoBehaviour
     }
 
     // 돼지가 울고 도망가는 코루틴
-    IEnumerator PigCryAndRun()
+    public IEnumerator PigCryAndRun()
     {
         if (isBroken)
         {
@@ -87,7 +85,7 @@ public class AnimationManager : MonoBehaviour
             // 우는 애니메이션 길이만큼 대기
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
-            // 돼지 도망가는(달리는) 애니메이션
+            // 돼지 도망가는(달리는) 애니메이션 
             animator.SetTrigger("IsRun");
             // 도망가는 효과음 
         }
