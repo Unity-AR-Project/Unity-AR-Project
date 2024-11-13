@@ -6,6 +6,8 @@ public class AnimationManager : MonoBehaviour
     public static AnimationManager instance;
 
     Animator animator;
+    public ParticleSystem smoke; //파티클 시스템(연기);
+    public ParticleSystem wind; //파티클 시스템(바람)
     private bool isBroken = false; // 집이 부셔졌는지(날아갔는지) 여부
     private int blowCount = 0; // 늑대가 바람을 분 횟수
     private const int maxBlowCount = 3; // 최대 바람 횟수
@@ -26,6 +28,9 @@ public class AnimationManager : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        smoke.Play();
+        wind.Stop();
+        SoundManager.instance.PlaySFX("smoke");
     }
 
     private void Update()
@@ -35,6 +40,7 @@ public class AnimationManager : MonoBehaviour
         //{
         //    PlayBlowWind();
         //}
+        
     }
 
     // 늑대가 바람을 부는 함수
@@ -50,7 +56,7 @@ public class AnimationManager : MonoBehaviour
         if (blowCount == 1)
         {
             isBroken = true;
-            animator.SetBool("IsBlow", true);
+            wind.Play();
             // 바람 사운드 추가
             StartCoroutine(PigCryAndRun());
         }
@@ -58,7 +64,7 @@ public class AnimationManager : MonoBehaviour
         if (blowCount == 2)
         {
             isBroken = true;
-            animator.SetBool("IsBlow", true);
+            wind.Play();
             // 바람 사운드 추가
             StartCoroutine(PigCryAndRun());
         }
