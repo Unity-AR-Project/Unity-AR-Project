@@ -63,31 +63,32 @@ public class SelectObject : MonoBehaviour
             // Raycast로 Ground를 먼저 감지
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _groundMask))
             {
-                // Raycast로 충돌한 오브젝트가 "TargetTree"라는 이름인 경우
-                if (hit.collider.gameObject.name == "TargetTree")
-                {
-                    Debug.LogWarning("[Debug] : TargetTree hit!");
-                    // 나무의 위치와 정면 방향을 가져옵니다
-                    Vector3 treePosition = hit.collider.gameObject.transform.position;
-                    Vector3 treeForward = hit.collider.gameObject.transform.forward;
+                selectedObj.transform.position = hit.point;
+                //// Raycast로 충돌한 오브젝트가 "TargetTree"라는 이름인 경우
+                //if (hit.collider.gameObject.name == "TargetTree")
+                //{
+                //    Debug.LogWarning("[Debug] : TargetTree hit!");
+                //    // 나무의 위치와 정면 방향을 가져옵니다
+                //    Vector3 treePosition = hit.collider.gameObject.transform.position;
+                //    Vector3 treeForward = hit.collider.gameObject.transform.forward;
 
-                    // 코기를 나무의 정면에 고정시킵니다 (treeDetectionDistance는 고정 거리)
-                    selectedObj.transform.position = treePosition + treeForward * treeDetectionDistance;
+                //    // 코기를 나무의 정면에 고정시킵니다 (treeDetectionDistance는 고정 거리)
+                //    selectedObj.transform.position = treePosition + treeForward * treeDetectionDistance;
 
-                    // 코기를 나무의 자식으로 설정하여 고정 상태로 만듭니다
-                    selectedObj.transform.SetParent(hit.collider.transform);
+                //    // 코기를 나무의 자식으로 설정하여 고정 상태로 만듭니다
+                //    selectedObj.transform.SetParent(hit.collider.transform);
 
-                    // 코기가 나무에 고정되었음을 표시
-                    isCorgiOnTree = true;
+                //    // 코기가 나무에 고정되었음을 표시
+                //    isCorgiOnTree = true;
 
-                    // 로그 출력 (디버깅용)
-                    Debug.LogWarning("[Debug] : Corgi has been fixed to the front of the tree!");
-                }
-                else
-                {
-                    // 나무가 아닌 다른 오브젝트에는 코기를 자유롭게 이동
-                    selectedObj.transform.position = hit.point;
-                }
+                //    // 로그 출력 (디버깅용)
+                //    Debug.LogWarning("[Debug] : Corgi has been fixed to the front of the tree!");
+                //}
+                //else
+                //{
+                //    // 나무가 아닌 다른 오브젝트에는 코기를 자유롭게 이동
+                //    selectedObj.transform.position = hit.point;
+                //}
             }
         }
 
