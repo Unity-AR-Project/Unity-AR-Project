@@ -1,16 +1,21 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
     public static AnimationManager instance;
 
-    Animator animator;
-    public ParticleSystem smoke; //파티클 시스템(연기);
+    [Header("Animator")]
+    public Animator pigAnimator; // 돼지 애니메이터
+    public Animator houseAnimator; // 집 애니메이터
+    public Animator wolfAnimator; // 늑대 애니메이터
+
     public ParticleSystem wind; //파티클 시스템(바람)
-    private bool isBroken = false; // 집이 부셔졌는지(날아갔는지) 여부
+    public  bool isBroken = false; // 집이 부셔졌는지(날아갔는지) 여부
     private int blowCount = 0; // 늑대가 바람을 분 횟수
     private const int maxBlowCount = 3; // 최대 바람 횟수
+    public bool isPigRun = false; //돼지가 도망가는지 여부
 
     private void Awake()
     {
@@ -27,10 +32,7 @@ public class AnimationManager : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-        smoke.Play();
         wind.Stop();
-        SoundManager.instance.PlaySFX("smoke");
     }
 
     private void Update()
@@ -38,13 +40,13 @@ public class AnimationManager : MonoBehaviour
 
         //if (바람 부는 거 인식 했을 때) 
         //{
-        //    PlayBlowWind();
+        //    BlowWind();
         //}
         
     }
 
     // 늑대가 바람을 부는 함수
-    void PlayBlowWind()
+    public void BlowWind()
     {
         if (isBroken) return; // 이미 집이 부셔졌다면 더 이상 진행하지 않음
 
@@ -57,6 +59,7 @@ public class AnimationManager : MonoBehaviour
         {
             isBroken = true;
             wind.Play();
+            Invoke("wind.Stop", 2.0f);
             // 바람 사운드 추가
             StartCoroutine(PigCryAndRun());
         }
@@ -65,6 +68,7 @@ public class AnimationManager : MonoBehaviour
         {
             isBroken = true;
             wind.Play();
+            Invoke("wind.Stop", 2.0f);
             // 바람 사운드 추가
             StartCoroutine(PigCryAndRun());
         }
@@ -76,25 +80,35 @@ public class AnimationManager : MonoBehaviour
     }
 
     // 돼지가 울고 도망가는 코루틴
-    IEnumerator PigCryAndRun()
+    public IEnumerator PigCryAndRun()
     {
         if (isBroken)
         {
             // 우는 애니메이션
-            animator.SetTrigger("IsCry");
+            pigAnimator.SetTrigger("IsCry");
             // 돼지 울음(슬퍼하는) 소리 추가 
 
             // 우는 애니메이션 길이만큼 대기
-            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+            yield return new WaitForSeconds(pigAnimator.GetCurrentAnimatorStateInfo(0).length);
 
             // 돼지 도망가는(달리는) 애니메이션
-            animator.SetTrigger("IsRun");
+            pigAnimator.SetTrigger("IsRun");
+            isPigRun = true;
             // 도망가는 효과음 
         }
     }
 
+    //늑대 돼지들 쫓아가고 도망가는 함수 
+    public void WolfRun()
+    {
+        if (isPigRun) 
+        {
+            wolfAnimator.SetTrigger("WolfRun");
+        }
+    }
+    
     //늑대 구현해야할 애니메이션 & 효과음
-    void WolfClips()
+    void WolfClips() 
     {
         //웃고
         //늑대 웃는 소리 
