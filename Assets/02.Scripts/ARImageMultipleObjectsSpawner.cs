@@ -150,7 +150,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 _trackedImages.Remove(imageName);
                 Debug.Log($"이미지 '{imageName}' 추적 손실.");
 
-                UpdateChapterState();
+                UpdateChapterState(trackedImage.Value);
             }
         }
     }
@@ -177,7 +177,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 Debug.Log($"이미지 '{imageName}' 추적 시작.");
             }
 
-            UpdateChapterState();
+            UpdateChapterState(trackedImage);
         }
         else
         {
@@ -186,7 +186,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 _trackedImages.Remove(imageName);
                 Debug.Log($"이미지 '{imageName}' 추적 손실.");
 
-                UpdateChapterState();
+                UpdateChapterState(trackedImage);
             }
         }
     }
@@ -194,7 +194,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     /// <summary>
     /// 현재 추적된 이미지들을 기반으로 챕터 상태를 업데이트하는 메서드
     /// </summary>
-    private void UpdateChapterState()
+    private void UpdateChapterState(ARTrackedImage trackedImage)
     {
         // 추적된 이미지에 기반하여 활성 챕터 수집
         HashSet<string> activeChapters = new HashSet<string>();
@@ -225,23 +225,34 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     previousPrefab.SetActive(false);
 
                     SoundManager.instance.StopNarration();
-                    
 
-                    Debug.Log($"챕터 '{_currentChapter}' 비활성화.");
+
+                    Debug.Log($"PreChapter '{_currentChapter}' UnActive.");
                 }
 
                 // 새로운 챕터 활성화
                 GameObject currentPrefab = _spawnedPrefabs[newCurrentChapter];
                 currentPrefab.SetActive(true);
+                currentPrefab.transform.position = trackedImage.transform.position;
+                currentPrefab.transform.rotation = trackedImage.transform.rotation;
 
                 SoundManager.instance.PlayNarration(newCurrentChapter);
-                SoundManager.instance.PlaySFX("door");
-                Debug.Log($"챕터 '{newCurrentChapter}' 활성화.");
+                //SoundManager.instance.PlaySFX("door");
+                Debug.Log($"NewChapter '{newCurrentChapter}' Active.");
 
                 _currentChapter = newCurrentChapter;
 
                 // 일시정지 버튼 표시
                 UIManager.instance.ShowPauseButton();
+            }
+            else
+            {
+                Debug.Log($"CurrentChapter '{newCurrentChapter}' Active.");
+                // 현재 챕터의 위치와 회전을 업데이트
+                GameObject currentPrefab = _spawnedPrefabs[_currentChapter];
+                currentPrefab.SetActive(true);
+                currentPrefab.transform.position = trackedImage.transform.position;
+                currentPrefab.transform.rotation = trackedImage.transform.rotation;
             }
         }
         else
@@ -292,7 +303,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
 
             SoundManager.instance.ToggleNarrationPause();
             // 테스트를 위한 sfx 재생
-            SoundManager.instance.PlaySFX("door");
+            //SoundManager.instance.PlaySFX("door");
 
             UIManager.instance.UpdatePauseButtonUI();
         }
