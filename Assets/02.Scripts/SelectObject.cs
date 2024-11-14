@@ -16,7 +16,6 @@ public class SelectObject : MonoBehaviour
     [SerializeField] LayerMask _targetMask;  // ARProp 레이어 마스크 (나무 레이어)
 
     private Vector3 initialPosition; // 초기 위치를 저장할 변수 추가
-    private float treeDetectionDistance = 2f; // 나무와 얼마나 가까워져야 고정될지 설정
     private bool isCorgiOnTree = false; // 코기가 나무에 고정되었는지 확인하는 변수
 
     private void Start()
@@ -36,7 +35,7 @@ public class SelectObject : MonoBehaviour
 
 
         // 터치가 시작될 때
-        if (touch.phase == TouchPhase.Began)
+        if (touch.phase == TouchPhase.Began && !isCorgiOnTree)
         {
             Ray ray = arCamera.ScreenPointToRay(touch.position); // 터치 위치로부터 Ray 생성
             RaycastHit hit;
@@ -54,8 +53,8 @@ public class SelectObject : MonoBehaviour
             }
         }
 
-        // 터치가 이동 중이고 오브젝트가 선택되었을 때
-        if (touch.phase == TouchPhase.Moved && isTouched)
+        // 터치가 이동 중이고 오브젝트가 선택되었으며, 나무에 고정되지 않은 경우
+        if (touch.phase == TouchPhase.Moved && isTouched && !isCorgiOnTree)
         {
             Ray ray = arCamera.ScreenPointToRay(touch.position); // 터치 위치로부터 Ray 생성
             RaycastHit hit;
@@ -63,32 +62,31 @@ public class SelectObject : MonoBehaviour
             // Raycast로 Ground를 먼저 감지
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _groundMask))
             {
-                selectedObj.transform.position = hit.point;
-                //// Raycast로 충돌한 오브젝트가 "TargetTree"라는 이름인 경우
-                //if (hit.collider.gameObject.name == "TargetTree")
-                //{
-                //    Debug.LogWarning("[Debug] : TargetTree hit!");
-                //    // 나무의 위치와 정면 방향을 가져옵니다
-                //    Vector3 treePosition = hit.collider.gameObject.transform.position;
-                //    Vector3 treeForward = hit.collider.gameObject.transform.forward;
 
-                //    // 코기를 나무의 정면에 고정시킵니다 (treeDetectionDistance는 고정 거리)
-                //    selectedObj.transform.position = treePosition + treeForward * treeDetectionDistance;
+                // Raycast로 충돌한 오브젝트가 "TargetTree"라는 이름인 경우
+                if (hit.collider.gameObject.name == "TargetTree")
+                {
+                    Debug.LogWarning("[Debug] : TargetTree hit!");
 
-                //    // 코기를 나무의 자식으로 설정하여 고정 상태로 만듭니다
-                //    selectedObj.transform.SetParent(hit.collider.transform);
+                    // 코기를 나무의 정면에 고정시킵니다
+                    selectedObj.transform.localPosition = new Vector3(0.39f, 0.35f, 0.29f); // 고정 위치로 설정
 
-                //    // 코기가 나무에 고정되었음을 표시
-                //    isCorgiOnTree = true;
+                    // 로그로 위치 확인
+                    Debug.LogWarning($"[Debug] : Corgi new position: {selectedObj.transform.position}");
 
-                //    // 로그 출력 (디버깅용)
-                //    Debug.LogWarning("[Debug] : Corgi has been fixed to the front of the tree!");
-                //}
-                //else
-                //{
-                //    // 나무가 아닌 다른 오브젝트에는 코기를 자유롭게 이동
-                //    selectedObj.transform.position = hit.point;
-                //}
+                    // 코기가 나무에 고정되었음을 표시
+                    isCorgiOnTree = true;
+
+                    // 로그 출력 (디버깅용)
+                    Debug.LogWarning("[Debug] : Corgi has been fixed to the front of the tree!");
+
+                }
+                else
+                {
+                    // 나무가 아닌 다른 오브젝트에는 코기를 자유롭게 이동
+                    selectedObj.transform.position = hit.point;
+                    Debug.LogWarning($"[Debug] : Corgi moved to ground at position: {hit.point}");
+                }
             }
         }
 
@@ -99,8 +97,18 @@ public class SelectObject : MonoBehaviour
             {
                 isTouched = false; // 오브젝트 선택 해제
                 selectedObj.layer = LayerMask.NameToLayer("ARSelectable"); // 터치가 끝나면 오브젝트의 레이어를 ARSelectable로 설정
-                selectedObj.transform.position = initialPosition; // 오브젝트를 초기 위치로 되돌리기
-                selectedObj.transform.SetParent(null); // 부모를 해제하여 자유롭게 이동
+                
+                // 코기가 나무에 고정된 상태라면 위치를 초기화하지 않음
+                if (!isCorgiOnTree)
+                {
+                    selectedObj.transform.position = initialPosition; // 오브젝트를 초기 위치로 되돌리기
+                    Debug.LogWarning("[Debug] : Corgi reset to initial position");
+                }
+                else
+                {
+                    Debug.LogWarning("[Debug] : Corgi remains at fixed position in tree");
+                }
+
                 selectedObj = null;
                 Debug.LogWarning("[Debug] : object deselected");
             }
