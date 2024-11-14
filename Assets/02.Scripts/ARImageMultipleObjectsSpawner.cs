@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.EventSystems;
 using System.Collections;
-
+using UnityEngine.UIElements;
+    
 /// <summary>
 /// 챕터 데이터 구조체: 챕터 이름, 프리팹, 이미지 이름들을 포함
 /// </summary>
@@ -32,6 +34,9 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     private Dictionary<string, GameObject> _spawnedPrefabs = new Dictionary<string, GameObject>();
     private HashSet<string> _trackedImages = new HashSet<string>();
     private string _currentChapter = "";
+
+    //private float smoothTime = 0.1f; // 보간 속도
+    //private Vector3 velocity = Vector3.zero;
 
     private void Awake()
     {
@@ -192,7 +197,8 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             }
         }
     }
-
+    public Text prefabPos;
+    public Text prefabRot;
     /// <summary>
     /// 현재 추적된 이미지들을 기반으로 챕터 상태를 업데이트하는 메서드
     /// </summary>
@@ -235,7 +241,10 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 // 새로운 챕터 활성화
                 GameObject currentPrefab = _spawnedPrefabs[newCurrentChapter];
                 currentPrefab.transform.position = trackedImage.transform.position;
-                currentPrefab.transform.rotation = trackedImage.transform.rotation;
+                currentPrefab.transform.rotation = Quaternion.Euler(new Vector3(-90f, 0, 0));
+                currentPrefab.transform.SetParent(trackedImage.transform);
+                prefabPos.text = "Image Position: " + currentPrefab.transform.position.ToString();
+                prefabRot.text = "Image Rotation: " + currentPrefab.transform.rotation.ToString();
                 //흔들림 현상을 줄이기 위해 프리팹 위치를 추적된 이미지 위치에 즉시 이동시키는 대신 Lerp 또는 SmoothDamp 함수를 사용하여 부드럽게 이동
                 //prefab.transform.position = Vector3.SmoothDamp(prefab.transform.position, trackedImage.transform.position, ref velocity, smoothTime);
                 //prefab.transform.rotation = Quaternion.Slerp(prefab.transform.rotation, trackedImage.transform.rotation, Time.deltaTime * 5f);

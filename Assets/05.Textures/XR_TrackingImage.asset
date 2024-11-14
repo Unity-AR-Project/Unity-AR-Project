@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
-  m_Name: XR_TrackingImage1
+  m_Name: XR_TrackingImage
   m_EditorClassIdentifier: 
   m_GuidLow: 4797760622635150850
   m_GuidHigh: 4493532777261910412
@@ -23,7 +23,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 17799592411589940232
       m_GuidHigh: 10334084146772672411
-    m_Size: {x: 3024, y: 4032}
+    m_Size: {x: 0.25, y: 0.33333334}
     m_SpecifySize: 1
     m_Name: chap1_image1
     m_Texture: {fileID: 2800000, guid: f78e9408dafdf7049b7f6177c70a6a8f, type: 3}
@@ -33,7 +33,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 4842585575252470791
       m_GuidHigh: 8877536624529263738
-    m_Size: {x: 3024, y: 4032}
+    m_Size: {x: 0.25, y: 0.33333334}
     m_SpecifySize: 1
     m_Name: chap1_image2
     m_Texture: {fileID: 2800000, guid: 6f5aac0751ec43347a4c96598658337b, type: 3}
@@ -43,7 +43,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 7607890034487693543
       m_GuidHigh: 12174379840866177961
-    m_Size: {x: 3024, y: 4032}
+    m_Size: {x: 0.25, y: 0.33333334}
     m_SpecifySize: 1
     m_Name: chap1_image3
     m_Texture: {fileID: 2800000, guid: 93df90e7a7ad6994a953816ff615f4a8, type: 3}
@@ -53,7 +53,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 2951216735517138052
       m_GuidHigh: 13334155174035407595
-    m_Size: {x: 3024, y: 4032}
+    m_Size: {x: 0.375, y: 0.5}
     m_SpecifySize: 1
     m_Name: chap1_image4
     m_Texture: {fileID: 2800000, guid: 17afdc84d3fc28f4eb4251c07b6f0cb9, type: 3}
