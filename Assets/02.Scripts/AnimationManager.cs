@@ -12,9 +12,7 @@ public class AnimationManager : MonoBehaviour
     public Animator wolfAnimator; // 늑대 애니메이터
 
     public ParticleSystem wind; //파티클 시스템(바람)
-    public  bool isBroken = false; // 집이 부셔졌는지(날아갔는지) 여부
-    private int blowCount = 0; // 늑대가 바람을 분 횟수
-    private const int maxBlowCount = 3; // 최대 바람 횟수
+    public  bool isBlowAndBreak = false; // 집이 부셔졌는지(날아갔는지) 여부
     public bool isPigRun = false; //돼지가 도망가는지 여부
 
     private void Awake()
@@ -32,6 +30,20 @@ public class AnimationManager : MonoBehaviour
 
     void Start()
     {
+        //애니메이터가 들어있는지 확인
+        if (pigAnimator == null)
+        {
+            Debug.LogError("Pig Animator가 연결되지 않았습니다.");
+        }
+        if (houseAnimator == null)
+        {
+            Debug.LogError("House Animator가 연결되지 않았습니다.");
+        }
+        if (wolfAnimator == null)
+        {
+            Debug.LogError("Wolf Animator가 연결되지 않았습니다.");
+        }
+
         wind.Stop();
     }
 
@@ -48,42 +60,15 @@ public class AnimationManager : MonoBehaviour
     // 늑대가 바람을 부는 함수
     public void BlowWind()
     {
-        if (isBroken) return; // 이미 집이 부셔졌다면 더 이상 진행하지 않음
-
-        blowCount++;
-        Debug.Log($"늑대가 바람을 불었습니다. 현재 바람 횟수: {blowCount}");
-
-
-        //첫째 집에서는 한번에 무너져야함
-        if (blowCount == 1)
-        {
-            isBroken = true;
-            wind.Play();
-            Invoke("wind.Stop", 2.0f);
-            // 바람 사운드 추가
-            StartCoroutine(PigCryAndRun());
-        }
-        //둘째 집에서 두번째에 무너짐.
-        if (blowCount == 2)
-        {
-            isBroken = true;
-            wind.Play();
-            Invoke("wind.Stop", 2.0f);
-            // 바람 사운드 추가
-            StartCoroutine(PigCryAndRun());
-        }
-        //셋째 집은 무너 지지 않음.
-        if (blowCount == maxBlowCount)
-        {
-            isBroken = false;
-        }
+        wind.Play();
+        SoundManager.instance.PlaySFX("blowWind");
     }
 
     // 돼지가 울고 도망가는 코루틴
     public IEnumerator PigCryAndRun()
     {
-        if (isBroken)
-        {
+        //if (isBlowAndBreak == true)
+        //{
             // 우는 애니메이션
             pigAnimator.SetTrigger("IsCry");
             // 돼지 울음(슬퍼하는) 소리 추가 
@@ -95,16 +80,21 @@ public class AnimationManager : MonoBehaviour
             pigAnimator.SetTrigger("IsRun");
             isPigRun = true;
             // 도망가는 효과음 
-        }
+        //}
+    }
+    //첫째 집이 날라갈때 애니메이션 & 효과음 실행
+    public void BlowHouse() 
+    {
+            houseAnimator.SetTrigger("BlowHousew");
+            SoundManager.instance.PlaySFX("blowHouse");
+        
     }
 
     //늑대 돼지들 쫓아가고 도망가는 함수 
     public void WolfRun()
-    {
-        if (isPigRun) 
-        {
+    { 
             wolfAnimator.SetTrigger("WolfRun");
-        }
+
     }
     
     //늑대 구현해야할 애니메이션 & 효과음
