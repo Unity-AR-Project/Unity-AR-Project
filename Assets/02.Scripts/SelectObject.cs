@@ -42,7 +42,7 @@ public class SelectObject : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, _selectMask)) // Ray가 Collider와 충돌했는지 확인
             {
-                if (hit.collider.name.Contains("corgi")) // 충돌한 오브젝트 이름에 "corgi"가 포함되었는지 확인
+                if (hit.collider.name.Contains("corgi")) // 충돌한 오브젝트 이름에 "corgi"가 포함되었는지 확인 //나중에 Target으로 이름 정해야겠다.
                 {
                     selectedObj = hit.collider.gameObject; // 선택된 오브젝트로 저장
                     initialPosition = selectedObj.transform.position; // 초기 위치 저장
