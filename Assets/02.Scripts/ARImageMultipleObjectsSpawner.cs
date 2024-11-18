@@ -144,7 +144,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
         {
             if (trackedImage.referenceImage.name == "chap0" && _coverAnchor == null)
             {
-                CenterPosition(trackedImage);               
+                CenterPosition(trackedImage);
             }
 
             HandleTrackedImage(trackedImage);
@@ -288,7 +288,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     previousPrefab.SetActive(false);
 
                     SoundManager.instance.StopNarration();
-                    
+
 
                     Debug.Log($"챕터 '{_currentChapter}' 비활성화.");
                 }
@@ -362,7 +362,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
 
     private void Update()
     {
-        if(_isTimer)
+        if (_isTimer)
         {
             _timer += Time.deltaTime;
         }
