@@ -1136,6 +1136,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin (AR Rig)
       objectReference: {fileID: 0}
+    - target: {fileID: 2512387470528047736, guid: 48cb3fb68c91eb94999fd99957eb0cae,
+        type: 3}
+      propertyPath: m_ActionAssets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512387470528047736, guid: 48cb3fb68c91eb94999fd99957eb0cae,
+        type: 3}
+      propertyPath: 'm_ActionAssets.Array.data[1]'
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
     - target: {fileID: 2512387470528047737, guid: 48cb3fb68c91eb94999fd99957eb0cae,
         type: 3}
       propertyPath: m_Enabled
@@ -2146,7 +2157,7 @@ MonoBehaviour:
       m_Calls: []
   m_SerializedLibrary: {fileID: 11400000, guid: e98253d7e32a9824bb272982a178f181,
     type: 2}
-  m_MaxNumberOfMovingImages: 200
+  m_MaxNumberOfMovingImages: 5
   m_TrackedImagePrefab: {fileID: 0}
 --- !u!114 &677149163
 MonoBehaviour:
@@ -2162,7 +2173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapters:
   - chapterName: chap1
-    prefab: {fileID: 6798762013047686073, guid: e26fc506710b6874da3daccfc63ded3f,
+    prefab: {fileID: 6798762013047686073, guid: 2c31890157616a44e844d2fd736d039d,
       type: 3}
     imageNames:
     - chap1_image1
@@ -2181,7 +2192,7 @@ MonoBehaviour:
     - chap1_image14
     - chap1_image15
   - chapterName: chap2
-    prefab: {fileID: 6798762013047686073, guid: 5b8b1f678b2a4fa42bc18a168a62538d,
+    prefab: {fileID: 6798762013047686073, guid: 34dfaa05be1c3da4dadd4a8cbacc7061,
       type: 3}
     imageNames:
     - chap2_image1
@@ -2201,7 +2212,7 @@ MonoBehaviour:
     - chap2_image15
     - chap2_image16
   - chapterName: chap3
-    prefab: {fileID: 6798762013047686073, guid: 5e911da59a4a0824d85c9f2d25c0e144,
+    prefab: {fileID: 6798762013047686073, guid: 396934d96e5dfd94783285203e814f09,
       type: 3}
     imageNames:
     - chap3_image1

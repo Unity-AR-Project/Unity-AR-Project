@@ -151,7 +151,7 @@ public class SoundManager : MonoBehaviour
         if (sfxClips.ContainsKey(sfxName))
         {
             sfxSource.PlayOneShot(sfxClips[sfxName]);
-            Debug.Log("door Å×½ºÆ® ");
+            Debug.Log($"SFX Sound Test: {sfxName}");
         }
         else
         {
