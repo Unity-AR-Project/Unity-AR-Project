@@ -22,10 +22,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 3.2333333333333334
+    m_Start: 3.1
     m_ClipIn: 0
     m_Asset: {fileID: 8012361602178079132}
-    m_Duration: 2
+    m_Duration: 1.5500000000000003
     m_TimeScale: 1
     m_ParentTrack: {fileID: -7806410652380909817}
     m_EaseInDuration: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d21dcc2386d650c4597f3633c75a1f98, type: 3}
-  m_Name: Animation Track
+  m_Name: Wolf
   m_EditorClassIdentifier: 
   m_Version: 3
   m_AnimClip: {fileID: 0}
@@ -387,7 +387,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 4667931730138099369}
-    m_Duration: 2
+    m_Duration: 1.55
     m_TimeScale: 1
     m_ParentTrack: {fileID: -2922377230516445601}
     m_EaseInDuration: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
     m_Start: 1.55
     m_ClipIn: 0
     m_Asset: {fileID: -1074712903738941224}
-    m_Duration: 2
+    m_Duration: 1.55
     m_TimeScale: 1
     m_ParentTrack: {fileID: 605063973153539395}
     m_EaseInDuration: 0

@@ -3,7 +3,7 @@ using UnityEngine.Playables;
 
 public class Chap6Contoller : MonoBehaviour
 {
-
+    [SerializeField]
     private PlayableDirector playableDirector;
     void Start()
     {
