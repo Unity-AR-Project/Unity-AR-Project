@@ -296,6 +296,8 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 // 새로운 챕터 활성화
                 GameObject currentPrefab = _spawnedPrefabs[newCurrentChapter];
                 _isTracking = true;
+                _isTimer = false;
+                _timer = 0;
 
                 //프리팹 위치 및 회전
                 currentPrefab.transform.localPosition = Vector3.zero;

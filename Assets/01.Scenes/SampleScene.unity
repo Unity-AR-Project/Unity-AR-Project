@@ -7255,9 +7255,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: a5a690484120882419c33b8e52a1286d, type: 3}
   - name: chap10
     clip: {fileID: 8300000, guid: 9dec25baa44d1044f8d8120b46a81b54, type: 3}
-  sfxClipList:
-  - name: smoke
-    clip: {fileID: 8300000, guid: e8673e6cfa4d5b948842257f723eb152, type: 3}
+  sfxClipList: []
 --- !u!224 &1678154319
 RectTransform:
   m_ObjectHideFlags: 0
