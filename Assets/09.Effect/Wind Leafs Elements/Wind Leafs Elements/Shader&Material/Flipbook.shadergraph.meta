@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 0fe7c6294e59c444da52c838bbc19be0
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 266713
+  packageName: Wind Leafs Elements
+  packageVersion: 1.0
+  assetPath: Assets/Wind Leafs Elements/Shader&Material/Flipbook.shadergraph
+  uploadId: 616829

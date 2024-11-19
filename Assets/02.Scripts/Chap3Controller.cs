@@ -3,15 +3,17 @@ using UnityEngine.Playables;
 
 public class Chap3Controller : MonoBehaviour
 {
-    public PlayableDirector playableDirector;
+    [SerializeField]
+    private PlayableDirector playableDirector;
+
     void Start()
     {
-        playableDirector.Play();
+        playableDirector.Play(); 
     }
 
 
     void Update()
     {
-        
+
     }
 }
