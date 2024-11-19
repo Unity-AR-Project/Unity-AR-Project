@@ -6,7 +6,7 @@ public class Chap4Controller : MonoBehaviour
     [SerializeField]
     private PlayableDirector playableDirector;
 
-    private int blowCount = 1;  //바람분 횟수
+    //private int blowCount = 1;  //바람분 횟수
 
     void Start()
     {   //바람 불러달라는 텍스티(UI) 하고 음성 
@@ -30,7 +30,7 @@ public class Chap4Controller : MonoBehaviour
     //    //처음에 재생(바람 불고)
     //    if(blowCount == 1){
     //    playableDirector.Play();
-    //    //2초(바람 한번 부는 시간)동안 재생 
+    //    //1.9초(바람 한번 부는 시간)동안 재생 
     //    yield return new WaitForSeconds(1.9f);
     //    blowCount = 2;
     //    }

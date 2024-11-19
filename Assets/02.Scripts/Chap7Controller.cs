@@ -6,7 +6,7 @@ public class Chap7Controller : MonoBehaviour
     [SerializeField]
     private PlayableDirector playableDirector;
 
-    private int bolwCount = 1;
+    //private int bolwCount = 1; //바람 분 횟수
 
     void Start()
     {   //바람 불러달라는 텍스트(UI) 하고 음성
