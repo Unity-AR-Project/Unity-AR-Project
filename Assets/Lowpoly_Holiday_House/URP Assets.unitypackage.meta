@@ -5,6 +5,7 @@ DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+<<<<<<< Updated upstream
 AssetOrigin:
   serializedVersion: 1
   productId: 95243
@@ -12,3 +13,5 @@ AssetOrigin:
   packageVersion: 1.0
   assetPath: Assets/Lowpoly_Holiday_House/URP Assets.unitypackage
   uploadId: 698439
+=======
+>>>>>>> Stashed changes

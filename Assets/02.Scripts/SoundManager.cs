@@ -1,42 +1,97 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 모든 사운드를 관리하는 싱글톤 클래스
+/// </summary>
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance;
+    public static SoundManager instance { get; private set; }
 
-    [Header("-------Sound System-------")]
-    public AudioSource BGMaudioSource; //배경음악
-    public AudioSource SFXaudioSource; //효과음
-
-    //사운드를 이름으로 관리 할 수 있도록 Dic 사용
-    Dictionary<string, AudioClip> BGMClips = new Dictionary<string, AudioClip>();
-    Dictionary<string, AudioClip> SFXClips = new Dictionary<string, AudioClip>();
-
-    //Inspector에서 사운드 클립을 추가할 수 있도록 리스트 제공
+    /// <summary>
+    /// 이름과 AudioClip을 연관짓는 구조체입니다.
+    /// 유니티 에디터에서 쉽게 오디오 클립을 할당할 수 있도록 Serializable로 설정했습니다.
+    /// </summary>
     [System.Serializable]
-    public struct NamedAudio
+    public struct NamedAudioClip
     {
-        public string name;
-        public AudioClip clip;
+        public string name;      // AudioClip의 이름 식별자
+        public AudioClip clip;   // AudioClip 자산
     }
 
-    public NamedAudio[] BGMClipList;
-    public NamedAudio[] SFXClipList;
+    [Header("Narration Clips")]
+    [Tooltip("챕터별 나레이션 오디오 클립 리스트")]
+    public NamedAudioClip[] narrationClipList;
 
-    private Coroutine currentBGMCoroutine; //현재 실행중인 코루틴 추적하는 변수
-    private string nextSceneName;
+    [Header("Sound Effects")]
+    [Tooltip("사운드 효과 오디오 클립 리스트")]
+    public NamedAudioClip[] sfxClipList;
+
+    // 나레이션과 사운드 효과를 저장할 딕셔너리
+    private Dictionary<string, AudioClip> narrationDict = new Dictionary<string, AudioClip>();
+    private Dictionary<string, AudioClip> sfxClips = new Dictionary<string, AudioClip>();
+
+    private AudioSource narrationSource;
+    private AudioSource sfxSource;
 
     private void Awake()
     {
+        // 싱글톤 패턴 구현
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializedAudioClips();
+
+            // AudioSource 컴포넌트 초기화
+            narrationSource = gameObject.AddComponent<AudioSource>();
+            sfxSource = gameObject.AddComponent<AudioSource>();
+
+            // AudioSource 설정
+            narrationSource.playOnAwake = false;
+            narrationSource.loop = false;
+
+            sfxSource.playOnAwake = false;
+            sfxSource.loop = false;
+
+            // 나레이션 딕셔너리 초기화
+            foreach (NamedAudioClip namedClip in narrationClipList)
+            {
+                if (!string.IsNullOrEmpty(namedClip.name) && namedClip.clip != null)
+                {
+                    if (!narrationDict.ContainsKey(namedClip.name))
+                    {
+                        narrationDict.Add(namedClip.name, namedClip.clip);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"나레이션 딕셔너리에 '{namedClip.name}' 키가 이미 존재합니다.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("NamedAudioClip에 name 또는 clip이 설정되지 않았습니다.");
+                }
+            }
+
+            // 사운드 효과 딕셔너리 초기화
+            foreach (NamedAudioClip namedClip in sfxClipList)
+            {
+                if (!string.IsNullOrEmpty(namedClip.name) && namedClip.clip != null)
+                {
+                    if (!sfxClips.ContainsKey(namedClip.name))
+                    {
+                        sfxClips.Add(namedClip.name, namedClip.clip);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"사운드 효과 딕셔너리에 '{namedClip.name}' 키가 이미 존재합니다.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("NamedAudioClip에 name 또는 clip이 설정되지 않았습니다.");
+                }
+            }
         }
         else
         {
@@ -44,130 +99,63 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    //Audio Clip 리스트를 Dic로 변환하여 이름으로 접근 가능하게 만드는 함수
-    private void InitializedAudioClips()
+    /// <summary>
+    /// 지정된 챕터의 나레이션을 재생합니다.
+    /// </summary>
+    /// <param name="chapterName">챕터 이름 (예: "chap1")</param>
+    public void PlayNarration(string chapterName)
     {
-        foreach (var bgm in BGMClipList) //배경음
+        if (narrationDict.ContainsKey(chapterName))
         {
-            if (!BGMClips.ContainsKey(bgm.name))
-            {
-                BGMClips.Add(bgm.name, bgm.clip);
-            }
-        }
-
-        foreach (var sfx in SFXClipList) //효과음
-        {
-            if (!SFXClips.ContainsKey(sfx.name))
-            {
-                SFXClips.Add(sfx.name, sfx.clip);
-            }
-        }
-    }
-
-    private void Start()
-    {
-        string sceneName = SceneManager.GetActiveScene().name; //씬 이름을 가져옴
-    }
-
-    public void OnSceneLoaded(string sceneName) //씬 이름을 받아서 BGM을 설정하는 함수
-    {
-        //씬 이름에 따라 배경음을 재생하는 코드
-        if (sceneName == "TileScene")
-        {
-            PlayBGM("Background", 1f);
-        }
-        else if (sceneName == "TileScene2")
-        {
-            PlayBGM("", 1f);
+            narrationSource.clip = narrationDict[chapterName];
+            narrationSource.Play();
         }
         else
         {
-            StopBGM();
+            Debug.LogWarning($"'{chapterName}'에 해당하는 나레이션 클립이 없습니다.");
         }
     }
 
-    public void PlayBGM(string clipName, float fadeDuration = 1f) //배경음 재생함수
+    /// <summary>
+    /// 현재 재생 중인 나레이션을 정지합니다.
+    /// </summary>
+    public void StopNarration()
     {
-        if (BGMClips.ContainsKey(clipName))
+        if (narrationSource.isPlaying)
         {
-            if (currentBGMCoroutine != null)
-            {
-                StopCoroutine(currentBGMCoroutine); //기존 페이드 코루틴이 있으면 중단하는 함수
-            }
+            narrationSource.Stop();
+        }
+    }
 
-            //현재 BGM이 있는 경우 페이드아웃 후 새로운 BGM으로 페이드인
-            //람다를 사용해 BGM을 재생
-            currentBGMCoroutine = StartCoroutine(FadeOutBGM(fadeDuration, () =>
-            {
-                BGMaudioSource.clip = BGMClips[clipName];
-                BGMaudioSource.Play();
-                currentBGMCoroutine = StartCoroutine(FadeInBGM(fadeDuration));
-            }));
+    /// <summary>
+    /// 나레이션의 일시정지/재개를 토글합니다.
+    /// </summary>
+    public void ToggleNarrationPause()
+    {
+        if (narrationSource.isPlaying)
+        {
+            narrationSource.Pause();
         }
         else
         {
-            Debug.LogWarning("해당 이름의 배경음이 존재하지 않습니다. : " + clipName);
+            narrationSource.UnPause();
         }
     }
 
-    public void PlaySFX(string clipName) //효과음 재생함수
+    /// <summary>
+    /// 사운드 효과를 재생합니다.
+    /// </summary>
+    /// <param name="sfxName">사운드 효과 클립 이름</param>
+    public void PlaySFX(string sfxName)
     {
-        if (SFXClips.ContainsKey(clipName))
+        if (sfxClips.ContainsKey(sfxName))
         {
-            SFXaudioSource.PlayOneShot(SFXClips[clipName]);
+            sfxSource.PlayOneShot(sfxClips[sfxName]);
+            Debug.Log($"SFX Sound Test: {sfxName}");
         }
         else
         {
-            Debug.LogWarning("해당 이름의 효과음이 존재하지 않습니다. : " + clipName);
+            Debug.LogWarning($"'{sfxName}'에 해당하는 사운드 효과 클립이 없습니다.");
         }
-    }
-
-    public void StopBGM() //배경음 멈추는 함수
-    {
-        BGMaudioSource.Stop();
-    }
-
-    public void StopSFX() //효과음 멈추는 함수
-    {
-        SFXaudioSource.Stop();
-    }
-
-    public void SetBGMVolume(float volume) //배경음 볼륨 조절하는 함수
-    {
-        BGMaudioSource.volume = Mathf.Clamp(volume, 0.0f, 1.0f);
-    }
-    public void SetSFXVolume(float volume) //효과음 볼륨 조절하는 함수
-    {
-        SFXaudioSource.volume = Mathf.Clamp(volume, 0.0f, 1.0f);
-    }
-
-    //BGM을 페이드아웃 시키는 코루틴
-    private IEnumerator FadeOutBGM(float duration, Action onFadeComplete)
-    {
-        float startVolume = BGMaudioSource.volume; //BGM의 현재볼륨값을 가져옴
-
-        for (float t = 0; t < duration; t += Time.deltaTime) //점점 소리가 작아짐
-        {
-            BGMaudioSource.volume = Mathf.Lerp(startVolume, 0f, t / duration);
-            yield return null;
-        }
-
-        BGMaudioSource.volume = 0f;
-        onFadeComplete?.Invoke(); //페이드 아웃이 완료되면 다음 작업 실행
-    }
-
-    //BGM을 페이드인 시키는 코루틴
-    private IEnumerator FadeInBGM(float duration)
-    {
-        float startVolume = 0f;
-        BGMaudioSource.volume = 0f;
-
-        for (float t = 0; t < duration; t += Time.deltaTime)
-        {
-            BGMaudioSource.volume = Mathf.Lerp(startVolume, 1f, t / duration);
-            //Mathf.Lerp : 두 float 값 사이의 보간된 float 결과
-            yield return null;
-        }
-        BGMaudioSource.volume = 1f;
     }
 }
