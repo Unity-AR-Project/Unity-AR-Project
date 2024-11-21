@@ -10,7 +10,7 @@ public class Chap4Controller : MonoBehaviour
     private int touchCount = 0; // 현재 터치 횟수
     private bool isPaused = false; // 타임라인 멈춤 상태를 추적하는 플래그
 
-    private const double PauseTime = 3.50; // 타임라인 멈출 시간 (3.50초)
+    private const double PauseTime = 13.8; // 타임라인 멈출 시간 (13.80초)
     public LayerMask groundLayer; // Ground 레이어를 지정 (레이캐스트가 충돌할 레이어)
 
     private void Start()

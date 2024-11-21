@@ -307,7 +307,9 @@ PlayableDirector:
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
-  m_SceneBindings: []
+  m_SceneBindings:
+  - key: {fileID: -3288635445048612864, guid: 645c50909ffd13d42921eade07b34af5, type: 2}
+    value: {fileID: 1096217014361915496}
   m_ExposedReferences:
     m_References:
     - 31a26e2f11ce99c439926fe285792bc1: {fileID: 0}
@@ -325,6 +327,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94dab52949371d4fa05d20e09e804f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arCamera: {fileID: 0}
+  _selectMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  uiTextObject: {fileID: 0}
 --- !u!1001 &356569617640808472
 PrefabInstance:
   m_ObjectHideFlags: 0
