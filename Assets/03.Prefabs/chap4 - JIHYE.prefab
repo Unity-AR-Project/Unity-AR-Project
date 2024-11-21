@@ -387,6 +387,7 @@ GameObject:
   - component: {fileID: -217747481221384109}
   - component: {fileID: 3062124774354828030}
   - component: {fileID: 2310405839924089394}
+  - component: {fileID: 5727995289385706327}
   m_Layer: 0
   m_Name: chap4 - JIHYE
   m_TagString: Untagged
@@ -485,6 +486,8 @@ PlayableDirector:
     value: {fileID: 5765379513781421497}
   - key: {fileID: 3108744406698842019, guid: d4010fe18e455154790ae255ab1ea8bf, type: 2}
     value: {fileID: 6174336545827086828}
+  - key: {fileID: -7317989387121185221, guid: d4010fe18e455154790ae255ab1ea8bf, type: 2}
+    value: {fileID: 5727995289385706327}
   m_ExposedReferences:
     m_References:
     - 1d6c702a6d204ea469ab8e9988240fc5: {fileID: 7997786501953145194}
@@ -512,6 +515,36 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &5727995289385706327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6798762013047686073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 14ede27a67606fa43a6a649bba4fdfa9, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2310405839924089394}
+          m_TargetAssemblyTypeName: Chap4Controller, Assembly-CSharp
+          m_MethodName: PauseTimelineAtSpecificTime
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7005946185831908734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,7 +1248,13 @@ PrefabInstance:
     - target: {fileID: 5325862638129296487, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
       propertyPath: m_WarningMessage
-      value: 
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Bip001 L Finger0'\n\tTransform 'Bip001 R
+        Clavicle'\n\tTransform 'Bip001 R UpperArm'\n\tTransform 'Bip001 Head'\n\tTransform
+        'Bip001 Spine1'\n\tTransform 'Bip001 L UpperArm'\n\tTransform 'Bip001 R Foot'\n\tTransform
+        'Bip001 L Clavicle'\n\tTransform 'Bip001 R Calf'\n\tTransform 'Bip001 L Hand'\n\tand
+        more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 5692596307999352776, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
@@ -2845,7 +2884,13 @@ PrefabInstance:
     - target: {fileID: 8600381296334479995, guid: e96193c8f0294a146b4178efae0ecf7f,
         type: 3}
       propertyPath: m_WarningMessage
-      value: 
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Bip001 L Finger0'\n\tTransform 'Bip001 R
+        Clavicle'\n\tTransform 'Bip001 R UpperArm'\n\tTransform 'Bip001 Head'\n\tTransform
+        'Bip001 Spine1'\n\tTransform 'Bip001 L UpperArm'\n\tTransform 'Bip001 R Foot'\n\tTransform
+        'Bip001 L Clavicle'\n\tTransform 'Bip001 R Calf'\n\tTransform 'Bip001 L Hand'\n\tand
+        more ..."
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

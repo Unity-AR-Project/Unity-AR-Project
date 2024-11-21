@@ -4,14 +4,28 @@ using UnityEngine.UI;
 
 public class Chap4Controller : MonoBehaviour
 {
+    public static Chap4Controller instance;
+
     public PlayableDirector playableDirector; // 타임라인 제어를 위한 PlayableDirector
     public GameObject uiText; // UI 텍스트 오브젝트 (안내 메시지)
 
     private int touchCount = 0; // 현재 터치 횟수
     private bool isPaused = false; // 타임라인 멈춤 상태를 추적하는 플래그
 
-    private const double PauseTime = 3.50; // 타임라인 멈출 시간 (3.50초)
+    private const double PauseTime = 15.05; // 타임라인 멈출 시간 (3.50초)
     public LayerMask groundLayer; // Ground 레이어를 지정 (레이캐스트가 충돌할 레이어)
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -59,12 +73,13 @@ public class Chap4Controller : MonoBehaviour
     }
 
     // 타임라인을 특정 시간에서 멈추고 UI 텍스트 표시
-    private void PauseTimelineAtSpecificTime()
+    public void PauseTimelineAtSpecificTime()
     {
         if (playableDirector != null)
         {
-            playableDirector.time = PauseTime; // 타임라인을 3.50초로 이동
+            //playableDirector.time = PauseTime; // 타임라인을 3.50초로 이동
             playableDirector.Pause(); // 타임라인 멈춤
+            AudioListener.pause = true;
             isPaused = true; // 멈춤 상태 플래그 설정
 
             if (uiText != null)
@@ -84,6 +99,7 @@ public class Chap4Controller : MonoBehaviour
         {
             playableDirector.Play(); // 타임라인 재개
             isPaused = false; // 멈춤 상태 플래그 해제
+            AudioListener.pause = false;
 
             if (uiText != null)
             {
@@ -93,6 +109,11 @@ public class Chap4Controller : MonoBehaviour
             touchCount = 0; // 터치 횟수 초기화
             Debug.LogWarning("[Debug] : Timeline resumed.");
         }
+    }
+
+    public void ResumeAudio()
+    {
+        AudioListener.pause = false;
     }
 
     // 타임라인이 종료되었을 때 호출되는 메서드

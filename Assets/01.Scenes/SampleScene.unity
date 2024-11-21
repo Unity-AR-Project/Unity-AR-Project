@@ -2539,7 +2539,7 @@ MonoBehaviour:
     - chap3_image13
     useSpeechRecognition: 1
   - chapterName: chap4
-    prefab: {fileID: 6798762013047686073, guid: 6db30e5734e470e4086d51c3c966259d,
+    prefab: {fileID: 6798762013047686073, guid: 6e92f0064b50a8940bd0b280e8df312f,
       type: 3}
     imageNames:
     - chap4_image1
@@ -2641,7 +2641,7 @@ MonoBehaviour:
     - chap8_image17
     useSpeechRecognition: 0
   - chapterName: chap9
-    prefab: {fileID: 6798762013047686073, guid: 29dcebbf632095d4580c7b3144c41061,
+    prefab: {fileID: 6798762013047686073, guid: f01672e40a286ab4eb1275568076e922,
       type: 3}
     imageNames:
     - chap9_image1
@@ -2660,7 +2660,7 @@ MonoBehaviour:
     - chap9_image14
     useSpeechRecognition: 0
   - chapterName: chap10
-    prefab: {fileID: 6798762013047686073, guid: cc98eb0fc4dfb7245be7d0581e48ecc2,
+    prefab: {fileID: 6798762013047686073, guid: 71ed294014e59fa449104a6f212fe4b8,
       type: 3}
     imageNames:
     - chap10_image1

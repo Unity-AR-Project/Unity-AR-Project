@@ -299,7 +299,6 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
 
                 // 새로운 챕터 활성화
                 GameObject currentPrefab = _spawnedPrefabs[newCurrentChapter];
-                currentPrefab.SetActive(true);
 
                 //Add
                 _isTracking = true;
@@ -315,6 +314,9 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     currentPrefab.transform.rotation = _coverAnchor.transform.rotation;
                     
                 }
+                currentPrefab.SetActive(true);
+
+                Chap4Controller.instance.ResumeAudio();
 
                 SoundManager.instance.PlayNarration(newCurrentChapter);
 
