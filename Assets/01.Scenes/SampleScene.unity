@@ -4667,7 +4667,7 @@ MonoBehaviour:
   apiKey: AIzaSyBb5IXIfKBXlM53N8_8VhapPx_8nJJYYm8
   sampleRate: 16000
   recordingLength: 3
-  amplificationFactor: 1.5
+  amplificationFactor: 1.8
 --- !u!1 &920969223
 GameObject:
   m_ObjectHideFlags: 0
