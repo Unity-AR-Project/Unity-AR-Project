@@ -122,7 +122,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
         if (_trackedImageManager != null)
         {
             // 이벤트 구독
-            _trackedImageManager.trackablesChanged.AddListener( OnTrackedImagesChanged);
+            _trackedImageManager.trackablesChanged.AddListener(OnTrackedImagesChanged);
         }
         else
         {
@@ -168,7 +168,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
         }
 
         // 제거된 이미지 처리
-        foreach (KeyValuePair<TrackableId,ARTrackedImage> trackedImage in eventArgs.removed)
+        foreach (KeyValuePair<TrackableId, ARTrackedImage> trackedImage in eventArgs.removed)
         {
             string imageName = trackedImage.Value.referenceImage.name;
 
@@ -292,7 +292,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     _isTimer = false;
                     _timer = 0;
 
-                    SoundManager.instance.StopNarration();
+                    //SoundManager.instance.StopNarration();
 
                     Debug.Log($"PreChapter '{_currentChapter}' UnActive.");
                 }
@@ -313,10 +313,10 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     currentPrefab.transform.localPosition = Vector3.zero;
                     currentPrefab.transform.position = _coverAnchor.transform.position;
                     currentPrefab.transform.rotation = _coverAnchor.transform.rotation;
-                    
+
                 }
 
-                SoundManager.instance.PlayNarration(newCurrentChapter);
+                //SoundManager.instance.PlayNarration(newCurrentChapter);
 
                 Debug.Log($"NewChpter '{newCurrentChapter}' Active.");
 
@@ -361,7 +361,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 GameObject currentPrefab = _spawnedPrefabs[_currentChapter];
                 currentPrefab.SetActive(false);
 
-                SoundManager.instance.StopNarration();
+                //SoundManager.instance.StopNarration();
 
                 Debug.Log($"Chapter '{_currentChapter}' UnActive.");
 
@@ -432,9 +432,14 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                 return;
 
+            // 현재 챕터에서 음성 인식 기능을 사용 중이면 터치 입력을 무시
+            ChapterData currentChapterData = GetChapterDataByName(_currentChapter);
+            if (currentChapterData.useSpeechRecognition)
+                return;
+
             if (touch.phase == TouchPhase.Began)
             {
-                SoundManager.instance.ToggleNarrationPause();
+                //SoundManager.instance.ToggleNarrationPause();
                 //UIManager.instance.UpdatePauseButtonUI();
             }
         }
@@ -447,8 +452,13 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
                 return;
 
-            SoundManager.instance.ToggleNarrationPause();
-            //UIManager.instance.UpdatePauseButtonUI();
+            // 현재 챕터에서 음성 인식 기능을 사용 중이면 마우스 입력을 무시
+            ChapterData currentChapterData = GetChapterDataByName(_currentChapter);
+            if (currentChapterData.useSpeechRecognition)
+                return;
+
+           // SoundManager.instance.ToggleNarrationPause();
+            // UIManager.instance.UpdatePauseButtonUI();
         }
 #endif
     }

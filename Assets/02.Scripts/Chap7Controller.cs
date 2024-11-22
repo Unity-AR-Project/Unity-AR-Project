@@ -1,54 +1,100 @@
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
+using UnityEngine.Events;
+using System.Collections;
 
 public class Chap7Controller : MonoBehaviour
 {
     [SerializeField]
     private PlayableDirector playableDirector;
 
-    private int bolwCount = 1;
+    private int maxBlowAttempts = 3; // 최대 시도 횟수
+    private int currentAttempt = 0;
+
+    private SpeechToTextManager speechManager;
 
     void Start()
-    {   //바람 불러달라는 텍스트(UI) 하고 음성
-        //예시로 Start 넣어둠. 바람부는 거 인식이 가능하면 Update 넣어둔 것을 사용 할 것.
+    {
+        speechManager = SpeechToTextManager.instance;
+        if (speechManager == null)
+        {
+            Debug.LogError("SpeechToTextManager not found in the scene.");
+            return;
+        }
+
+        // 타임라인 시작
         playableDirector.Play();
     }
 
-
-    void Update()
+    // 시그널에 의해 호출될 메서드
+    public void OnBlowSignalReceived()
     {
-        //if(바람부는 거 인식했을때)
-        //{
-        // threeBlowWind();
-        //}
+        Debug.Log("Hoo OnBlowSignalReceived");
+        // 타임라인 일시정지
+        playableDirector.Pause();
+
+        // 음성 인식 프로세스 시작
+        StartCoroutine(BlowWindProcess());
     }
 
-    // 바람을 2번 불면 집이 날라가게 하는 함수.
-    //private IEnumerator threeBlowWind()
-    //{
-    //    //처음에 재생(바람 불고)
-    //    if(blowCount == 1)
-    //    {
-    //    playableDirector.Play();
-    //    //1초(ex바람 한번 부는 시간)동안 재생 
-    //    yield return new WaitForSeconds(1.1f);
-    //     타임라인을 현재 시점에서 일시 정지
-    //    playableDirector.Pause();
-    //    bolwCount = 2;
-    //    }
-   
-    //    두번쨰 바람
-    //    //if(blowCount == 2){
-    //    // 바람을 다시 부는거 인식후에 다시 타임라인 재개
-    //    playableDirector.Play();
-    //   
-    //    yield return new WaitForSeconds(2.0f);
-    //   playableDirector.Pause();
-    //    blowCount = 3;
-    //    }
-    //    세번쨰 바람
-    //    //if(Blowcount == 3)
-    //{
-    //      playableDirector.Play();
-    //}
+    private IEnumerator BlowWindProcess()
+    {
+        bool success = false;
+
+        while (currentAttempt < maxBlowAttempts && !success)
+        {
+            currentAttempt++;
+
+            // UIManager를 통해 메시지 표시
+            UIManager.instance.ShowMessage("후 하고 불어주세요!");
+
+            // 음성 인식 시작
+            speechManager.onHooDetected.RemoveAllListeners();
+            speechManager.onHooDetected.AddListener(() => success = true);
+            speechManager.StartSpeechRecognition();
+
+            // 녹음 시간 동안 대기
+            yield return new WaitForSeconds(speechManager.GetRecordingLength());
+
+            // 음성 인식 중지
+            speechManager.StopSpeechRecognition();
+
+            // 결과 확인
+            if (success)
+            {
+                Debug.Log("Hoo Success");
+                // 성공 메시지 표시
+                UIManager.instance.ShowMessage("잘했어요!");
+
+                // 잠시 대기
+                yield return new WaitForSeconds(1f);
+
+                // 타임라인 재생
+                playableDirector.Play();
+            }
+            else
+            {
+                if (currentAttempt < maxBlowAttempts)
+                {
+                    // 재시도 메시지 표시
+                    UIManager.instance.ShowMessage("다시 한 번 불어주세요!");
+                }
+                else
+                {
+                    // 실패 메시지 표시
+                    UIManager.instance.ShowMessage("아쉽네요~");
+
+                    // 잠시 대기
+                    yield return new WaitForSeconds(1f);
+
+                    // 타임라인 재생
+                    playableDirector.Play();
+                }
+
+                // 잠시 대기
+                yield return new WaitForSeconds(1f);
+            }
+        }
+    }
 }

@@ -10,12 +10,15 @@ public class SpeechToTextManager : MonoBehaviour
 
     public UnityEvent onHooDetected;
 
-    private GoogleSpeechToText googleSpeechToText;
-    private MicrophoneInput microphoneInput;
-    private AudioClip recordedClip;
-    private string currentLanguageCode = "ko-KR";
+    private SpeechRecognitionManager speechRecognitionManager;
 
-    private bool isRecording = false; // 녹음 중인지 여부
+    private string currentLanguageCode = "ko-KR";
+    private bool isRecognizing = false; // 음성 인식 중인지 여부
+
+    public bool IsRecognizing
+    {
+        get { return isRecognizing; }
+    }
 
     private void Awake()
     {
@@ -32,17 +35,15 @@ public class SpeechToTextManager : MonoBehaviour
 
     private void Start()
     {
-        googleSpeechToText = FindObjectOfType<GoogleSpeechToText>();
-        microphoneInput = MicrophoneInput.instance;
+        speechRecognitionManager = FindObjectOfType<SpeechRecognitionManager>();
 
-        if (googleSpeechToText != null)
+        if (speechRecognitionManager != null)
         {
-            Debug.Log("HandleSpeechRecognized");
-            googleSpeechToText.OnSpeechRecognized += HandleSpeechRecognized;
+            speechRecognitionManager.OnSpeechRecognized += HandleSpeechRecognized;
         }
         else
         {
-            Debug.LogError("GoogleSpeechToText script not found.");
+            Debug.LogError("SpeechRecognitionManager script not found.");
         }
     }
 
@@ -51,47 +52,31 @@ public class SpeechToTextManager : MonoBehaviour
     /// </summary>
     public void StartSpeechRecognition()
     {
-        if (!isRecording)
+        if (isRecognizing)
         {
-            Debug.Log("Calling StartRecording()");
-            StartRecording();
+            Debug.LogWarning("Speech recognition is already in progress.");
+            return;
         }
+
+        Debug.Log("StartSpeechRecognition called.");
+        speechRecognitionManager.StartRecording();
+        isRecognizing = true;
     }
 
     /// <summary>
-    /// 마이크 녹음을 시작합니다.
-    /// </summary>
-    private void StartRecording()
-    {
-        Debug.Log("Processing StartRecording ");
-        recordedClip = microphoneInput.StartRecording();
-        isRecording = true;
-        //UIManager.instance.ShowLoadingUI("녹음 중...");
-    }
-
-    /// <summary>
-    /// 마이크 녹음을 중지하고 음성 인식을 요청합니다.
+    /// 음성 인식을 중지하고 결과를 처리합니다.
     /// </summary>
     public void StopSpeechRecognition()
     {
-        if (isRecording)
+        if (!isRecognizing)
         {
-
-            Debug.Log("StopSpeechRecognition");
-            microphoneInput.StopRecording();
-            isRecording = false;
-            //UIManager.instance.HideLoadingUI();
-
-            if (recordedClip != null)
-            {
-                Debug.Log("There are recordedClip");
-                googleSpeechToText.SendAudioClip(recordedClip, currentLanguageCode);
-            }
-            else
-            {
-                Debug.LogError("There are no recorded audio clips.");
-            }
+            Debug.LogWarning("Speech recognition is not in progress.");
+            return;
         }
+
+        Debug.Log("StopSpeechRecognition called.");
+        speechRecognitionManager.StopRecording();
+        isRecognizing = false;
     }
 
     /// <summary>
@@ -100,34 +85,27 @@ public class SpeechToTextManager : MonoBehaviour
     /// <param name="transcript">인식된 텍스트</param>
     private void HandleSpeechRecognized(string transcript)
     {
-        Debug.Log("Processing HandleSpeechRecognized");
-        Debug.Log("transcript :"+transcript);
+        Debug.Log("HandleSpeechRecognized called.");
+        Debug.Log("Transcript: " + transcript);
+
+        isRecognizing = false; // 음성 인식 완료
+
         if (transcript.Contains("후"))
         {
-
-            Debug.Log("Whoo! It's detected!");
-            onHooDetected?.Invoke();
+            Debug.Log("Hoo detected!");
+            //onHooDetected?.Invoke();
         }
         else
         {
-            Debug.Log("인식된 텍스트: " + transcript);
-        }
-    }
-
-    private void Update()
-    {
-        // 녹음 시간 제한 (예: 5초)
-        if (isRecording && microphoneInput.GetRecordingTime() >= 5f)
-        {
-            StopSpeechRecognition();
+            Debug.Log("No target word detected in the transcript.");
         }
     }
 
     private void OnDestroy()
     {
-        if (googleSpeechToText != null)
+        if (speechRecognitionManager != null)
         {
-            googleSpeechToText.OnSpeechRecognized -= HandleSpeechRecognized;
+            speechRecognitionManager.OnSpeechRecognized -= HandleSpeechRecognized;
         }
     }
 
@@ -139,4 +117,15 @@ public class SpeechToTextManager : MonoBehaviour
     {
         currentLanguageCode = languageCode;
     }
+
+    /// <summary>
+    /// 녹음 시간을 반환합니다.
+    /// </summary>
+    /// <returns>녹음 시간 (초)</returns>
+    public float GetRecordingLength()
+    {
+        return speechRecognitionManager != null ? speechRecognitionManager.recordingLength : 5f;
+        //return speechRecognitionManager.recordingLength;
+    }
+
 }
