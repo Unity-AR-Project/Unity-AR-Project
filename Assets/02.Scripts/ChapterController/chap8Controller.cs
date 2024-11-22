@@ -1,10 +1,10 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables; // PlayableDirector 관련 네임스페이스 추가
 
 public class chap8Controller : MonoBehaviour
 {
-
     private bool isTouched = false;
     private GameObject selectedObj;
     [SerializeField] private Camera arCamera;
@@ -17,11 +17,30 @@ public class chap8Controller : MonoBehaviour
     [SerializeField] private GameObject uiTextObject; // 텍스트가 포함된 UI 오브젝트
     private Text uiText; // UI 텍스트 컴포넌트
 
+    [SerializeField] private PlayableDirector timelineDirector; // 타임라인 디렉터 추가
+    private bool timelineCompleted = false; // 타임라인 종료 여부 확인 변수
+
     private void Start()
     {
+        // AR 카메라 설정
         if (arCamera == null)
         {
-            Debug.LogError("[Debug] : AR Camera not assigned.");
+            arCamera = Camera.main;
+            if (arCamera == null)
+            {
+                Debug.LogError("[Debug] : AR Camera not assigned.");
+            }
+        }
+
+        // 타임라인 디렉터 설정
+        if (timelineDirector != null)
+        {
+            timelineDirector.stopped += OnTimelineStopped; // 타임라인 종료 이벤트 등록
+            timelineDirector.Play(); // 타임라인 재생
+        }
+        else
+        {
+            Debug.LogError("[Debug] : PlayableDirector not assigned.");
         }
 
         // UI 텍스트 초기화
@@ -33,13 +52,30 @@ public class chap8Controller : MonoBehaviour
                 Debug.LogError("No Text component found on the assigned GameObject.");
             }
 
-            //uiTextObject.SetActive(true); // 시작 시 UI 활성화
+            uiTextObject.SetActive(false); // 시작 시 UI 비활성화
             uiText.text = "돼지 형제들을 나무로 옮겨주세요."; // 초기 텍스트 설정
+        }
+    }
+
+    private void OnTimelineStopped(PlayableDirector director)
+    {
+        if (director == timelineDirector)
+        {
+            Debug.Log("[Debug] : Timeline has finished.");
+            timelineCompleted = true; // 타임라인 종료 상태 업데이트
+
+            // UI 텍스트 활성화
+            if (uiTextObject != null)
+            {
+                uiTextObject.SetActive(true);
+            }
         }
     }
 
     private void Update()
     {
+        if (!timelineCompleted) return; // 타임라인이 끝나기 전에는 터치 기능 비활성화
+
         if (Input.touchCount == 0) return;
 
         Touch touch = Input.GetTouch(0);
@@ -60,7 +96,7 @@ public class chap8Controller : MonoBehaviour
                     initialPosition = selectedObj.transform.position;
                     isTouched = true;
                     selectedObj.layer = LayerMask.NameToLayer("ARSelected");
-                    Debug.LogWarning("[Debug] : {selectedObj.name}");
+                    Debug.LogWarning($"[Debug] : {selectedObj.name} selected.");
                 }
             }
         }

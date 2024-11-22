@@ -292,8 +292,6 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     _isTimer = false;
                     _timer = 0;
 
-                    SoundManager.instance.StopNarration();
-
                     Debug.Log($"PreChapter '{_currentChapter}' UnActive.");
                 }
 
@@ -315,8 +313,6 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     currentPrefab.transform.rotation = _coverAnchor.transform.rotation;
                     
                 }
-
-                SoundManager.instance.PlayNarration(newCurrentChapter);
 
                 Debug.Log($"NewChpter '{newCurrentChapter}' Active.");
 
@@ -360,8 +356,6 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             {
                 GameObject currentPrefab = _spawnedPrefabs[_currentChapter];
                 currentPrefab.SetActive(false);
-
-                SoundManager.instance.StopNarration();
 
                 Debug.Log($"Chapter '{_currentChapter}' UnActive.");
 
@@ -434,7 +428,6 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
-                SoundManager.instance.ToggleNarrationPause();
                 //UIManager.instance.UpdatePauseButtonUI();
             }
         }
@@ -446,8 +439,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             // UI 요소 위의 클릭은 무시
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
                 return;
-
-            SoundManager.instance.ToggleNarrationPause();
+;
             //UIManager.instance.UpdatePauseButtonUI();
         }
 #endif

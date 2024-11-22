@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables;
 
 public class chap9Controller : MonoBehaviour
 {
@@ -16,12 +17,14 @@ public class chap9Controller : MonoBehaviour
     [SerializeField] private GameObject uiTextObject; // 텍스트가 포함된 UI 오브젝트
     private Text uiText; // UI 텍스트 컴포넌트
 
+    [SerializeField] private PlayableDirector playableDirector; // 타임라인 컨트롤러
+    private bool isDraggingEnabled = false; // 드래그 기능 활성화 여부
+
     private void Start()
     {
         if (arCamera == null)
         {
-            arCamera = Camera.main;  // 기본적으로 "Main Camera"로 할당
-
+            arCamera = Camera.main; // 기본적으로 "Main Camera"로 할당
             if (arCamera == null)
             {
                 Debug.LogError("[Debug] : chap9 AR Camera not assigned.");
@@ -37,17 +40,25 @@ public class chap9Controller : MonoBehaviour
                 Debug.LogError("No Text component found on the assigned GameObject.");
             }
 
-            uiTextObject.SetActive(true); // 시작 시 UI 활성화
-            uiText.text = "돼지가 들고 있는 사과를 늑대에게 던져주세요."; // 초기 텍스트 설정
+            uiTextObject.SetActive(false); // 시작 시 UI 비활성화
+        }
+
+        // 타임라인 이벤트 설정
+        if (playableDirector != null)
+        {
+            playableDirector.stopped += OnTimelineStopped; // 타임라인 종료 이벤트 등록
+        }
+        else
+        {
+            Debug.LogError("[Debug] : PlayableDirector not assigned.");
         }
     }
 
     private void Update()
     {
-        if (Input.touchCount == 0) return;
+        if (!isDraggingEnabled || Input.touchCount == 0) return;
 
         Touch touch = Input.GetTouch(0);
-
 
         // 터치 시작
         if (touch.phase == TouchPhase.Began)
@@ -58,7 +69,7 @@ public class chap9Controller : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _selectMask))
             {
-                //사과가 선택되었는지 확인
+                // 사과가 선택되었는지 확인
                 AppleStatus appleStatus = hit.collider.GetComponent<AppleStatus>();
                 if (appleStatus != null && !appleStatus.isOnWolf)
                 {
@@ -87,13 +98,13 @@ public class chap9Controller : MonoBehaviour
                     Vector3 fixedPosition = GetFixedPositionForObject(selectedObj.name);
                     selectedObj.transform.localPosition = fixedPosition;
 
-                    // 돼지 상태 업데이트
+                    // 사과 상태 업데이트
                     selectedObj.GetComponent<AppleStatus>().isOnWolf = true;
-                    Debug.LogWarning($"[Debug] : {selectedObj.name} is now on tree: {selectedObj.GetComponent<AppleStatus>().isOnWolf}");
+                    Debug.LogWarning($"[Debug] : {selectedObj.name} is now on wolf: {selectedObj.GetComponent<AppleStatus>().isOnWolf}");
 
                     Debug.LogWarning($"[Debug] : {selectedObj.name} fixed at {fixedPosition}");
 
-                    // 모든 돼지가 나무에 고정되었는지 확인
+                    // 모든 사과가 늑대에 고정되었는지 확인
                     CheckAllApplesOnWolf();
                 }
                 else
@@ -136,20 +147,50 @@ public class chap9Controller : MonoBehaviour
             default: return Vector3.zero; // 기본 위치는 0, 0, 0
         }
     }
+
     // 모든 사과가 늑대에 고정되었는지 확인
     private void CheckAllApplesOnWolf()
     {
         bool allApplesOnWolf = GameObject.FindGameObjectsWithTag("Apple").All(apple => apple.GetComponent<AppleStatus>().isOnWolf);
-        Debug.LogWarning($"[Debug] : All Apple on Wolf: {allApplesOnWolf}"); // 상태 확인
+        Debug.LogWarning($"[Debug] : All Apples on Wolf: {allApplesOnWolf}");
 
         if (allApplesOnWolf)
         {
+            isDraggingEnabled = false; // 드래그 기능 비활성화
+
             if (uiTextObject != null)
             {
-                Debug.LogWarning($"[Debug] : Hiding UI Text...");
-                uiTextObject.SetActive(false); // 모든 돼지가 고정되면 UI 숨김
+                uiTextObject.SetActive(false); // 모든 사과가 고정되면 UI 숨김
             }
-            Debug.LogWarning("[Debug] : 모든 사과가 늑대에 고정되었습니다.");
+
+            // 나레이션 재개
+            AudioListener.pause = false;
+            Debug.LogWarning("[Debug] : 모든 사과가 늑대에 고정되었습니다. 나레이션 재생 시작.");
+        }
+    }
+
+    // 타임라인 종료 이벤트 핸들러
+    public void OnTimelineStopped(PlayableDirector director)
+    {
+        if (director == playableDirector)
+        {
+            Debug.LogWarning("[Debug] : Timeline stopped. Enable dragging and show UI text.");
+            AudioListener.pause = true; // 나레이션 정지
+            isDraggingEnabled = true; // 드래그 기능 활성화
+
+            if (uiTextObject != null)
+            {
+                uiTextObject.SetActive(true);
+                uiText.text = "돼지가 들고 있는 사과를 늑대에게 던져주세요.";
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (playableDirector != null)
+        {
+            playableDirector.stopped -= OnTimelineStopped; // 이벤트 해제
         }
     }
 }
