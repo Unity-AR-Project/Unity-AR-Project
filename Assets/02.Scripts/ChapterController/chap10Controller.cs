@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class chap10Controller : MonoBehaviour
 {
@@ -13,7 +13,10 @@ public class chap10Controller : MonoBehaviour
     private Vector3 initialPosition;
 
     [SerializeField] private PlayableDirector timelineDirector; // 타임라인 연결
-    public GameObject uiText; // UI 텍스트 오브젝트 (안내 메시지)
+    [SerializeField] private GameObject uiText; // UI 텍스트 오브젝트 (안내 메시지)
+
+    private bool isPaused = false; // 타임라인이 중단되었는지 여부
+    private const double PauseTime = 2.2; // 타임라인 중단 시간
 
     private void Start()
     {
@@ -30,23 +33,27 @@ public class chap10Controller : MonoBehaviour
         // UI 텍스트를 시작 시 비활성화
         if (uiText != null)
         {
-            uiText.SetActive(true);
+            uiText.SetActive(false);
         }
 
         // 타임라인 초기화
         if (timelineDirector != null)
         {
-            timelineDirector.Stop(); // 타임라인 초기 정지 상태로 설정
+            timelineDirector.stopped += OnTimelineStopped;
+            timelineDirector.Play(); // 타임라인 실행
+            Invoke(nameof(PauseTimelineAtSpecificTime), (float)PauseTime);
         }
         else
         {
             Debug.LogError("[Debug] : PlayableDirector not assigned.");
         }
+
+        AudioListener.pause = false;
     }
 
     private void Update()
     {
-        if (Input.touchCount == 0) return;
+        if (!isPaused || Input.touchCount == 0) return;
 
         Touch touch = Input.GetTouch(0);
 
@@ -84,33 +91,71 @@ public class chap10Controller : MonoBehaviour
                     // 늑대 비활성화
                     selectedObj.SetActive(false);
 
-                    // 타임라인 실행
-                    if (timelineDirector != null)
-                    {
-                        timelineDirector.Play();
-                    }
-
-                    if (uiText != null)
-                    {
-                        uiText.SetActive(false); // UI 텍스트 비활성화
-                    }
+                    // 타임라인 및 오디오 재개
+                    ResumeTimeline();
                 }
                 else
                 {
-                    // 나무가 아닌 곳으로 이동
+                    // 굴뚝이 아닌 곳으로 이동
                     selectedObj.transform.position = hit.point;
                     Debug.Log($"[Debug] : {selectedObj.name} moved to {hit.point}");
                 }
             }
         }
 
-
         // 터치 종료
         if (touch.phase == TouchPhase.Ended && selectedObj != null)
         {
             isTouched = false;
             selectedObj.layer = LayerMask.NameToLayer("ARSelectable");
-            selectedObj.SetActive(false);
         }
+    }
+
+    private void PauseTimelineAtSpecificTime()
+    {
+        if (timelineDirector != null)
+        {
+            timelineDirector.Pause();
+            isPaused = true;
+
+            if (uiText != null)
+            {
+                uiText.SetActive(true);
+                uiText.GetComponent<Text>().text = "굴뚝에 늑대를 옮겨주세요!";
+            }
+
+            Debug.Log("[Debug] : Timeline paused at 2.2 seconds.");
+        }
+    }
+
+    private void ResumeTimeline()
+    {
+        if (timelineDirector != null)
+        {
+            timelineDirector.Play();
+            isPaused = false;
+            AudioListener.pause = false; // 오디오 재개
+            
+
+            if (uiText != null)
+            {
+                uiText.SetActive(false);
+            }
+
+            Debug.Log("[Debug] : Timeline and narration resumed.");
+        }
+    }
+
+    private void OnTimelineStopped(PlayableDirector director)
+    {
+        if (director == timelineDirector)
+        {
+            Debug.Log("[Debug] : Timeline has ended.");
+        }
+    }
+
+    public void PauseAudio()
+    {
+        AudioListener.pause = true; //오디오 일시정지
     }
 }
