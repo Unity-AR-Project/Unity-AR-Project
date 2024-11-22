@@ -112,7 +112,7 @@ public class UIManager : MonoBehaviour
     private void OnPauseButtonClicked()
     {
         isPaused = !isPaused;
-        SoundManager.instance.ToggleNarrationPause();
+        //SoundManager.instance.ToggleNarrationPause();
         UpdatePauseButtonUI();
     }
 

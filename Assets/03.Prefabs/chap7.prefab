@@ -3149,7 +3149,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone house
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1125241145293702334, guid: 9ccf3795646fd134db0be857bb8e882b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3238,7 +3239,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Acacia_Tree_1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2744514495638861366, guid: 7da2fbccefcba814d81b226e585fc872, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3340,40 +3342,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5089001352616227324, guid: 951d5dc005528494b880c3e997954770,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4314656948333194875}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 951d5dc005528494b880c3e997954770, type: 3}
---- !u!1 &1587256653758972763 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5089001352616227324, guid: 951d5dc005528494b880c3e997954770,
-    type: 3}
-  m_PrefabInstance: {fileID: 5807622892527153831}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &4314656948333194875
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587256653758972763}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 8217705402921873875, guid: 27f89a1b4efd3e14eb1c724d143e7a86, type: 3}
 --- !u!4 &2111274706297264609 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5608128777249647430, guid: 951d5dc005528494b880c3e997954770,
@@ -4707,7 +4677,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pine_Tree_13
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3724105215999695007, guid: c1aa4768eb2570042a52eaf1bd080b87, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 5241151332951952753}
   - component: {fileID: 499850051089376844}
   - component: {fileID: 8536755556676833542}
-  - component: {fileID: 6623227690244244982}
+  - component: {fileID: 3952178153994369222}
   m_Layer: 0
   m_Name: chap1
   m_TagString: Untagged
@@ -399,7 +399,7 @@ PlayableDirector:
     - 02e99898256b34442bbebe2318e65408: {fileID: 4630199469031988740}
     - 1e07930746b2c1340be14b66d6c610b6: {fileID: 6568972196884269357}
     - b7483b7e1563b234a83faf3cc6ca668d: {fileID: 4630199469031988740}
---- !u!114 &6623227690244244982
+--- !u!114 &3952178153994369222
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -408,10 +408,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6798762013047686073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c295284b0b2f46e4e97d4743606abd3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d75eacd5e3e6f04db29e3b7748f0a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoke: {fileID: 0}
+  playableDirector: {fileID: 8536755556676833542}
 --- !u!1 &8232916143017998117
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +559,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pine_Tree_13
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3724105215999695007, guid: c1aa4768eb2570042a52eaf1bd080b87, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1801,7 +1802,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone house
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1125241145293702334, guid: 9ccf3795646fd134db0be857bb8e882b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2115,7 +2117,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood house
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1660037063961482379, guid: e3bc660e936db114eb37fab1180ac67e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2215,7 +2218,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1445351666961688294, guid: aeb2bf001c3462749b97d4bd3fb4cbdc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -4394,7 +4398,7 @@ PrefabInstance:
     - target: {fileID: 5608128777249647430, guid: 951d5dc005528494b880c3e997954770,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.056144003
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 5608128777249647430, guid: 951d5dc005528494b880c3e997954770,
         type: 3}
@@ -4404,7 +4408,7 @@ PrefabInstance:
     - target: {fileID: 5608128777249647430, guid: 951d5dc005528494b880c3e997954770,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.02
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5608128777249647430, guid: 951d5dc005528494b880c3e997954770,
         type: 3}
@@ -4469,40 +4473,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5089001352616227324, guid: 951d5dc005528494b880c3e997954770,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 11579482196606247}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 951d5dc005528494b880c3e997954770, type: 3}
---- !u!1 &2666136187347347523 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5089001352616227324, guid: 951d5dc005528494b880c3e997954770,
-    type: 3}
-  m_PrefabInstance: {fileID: 7178675653247179199}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &11579482196606247
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2666136187347347523}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 8217705402921873875, guid: 27f89a1b4efd3e14eb1c724d143e7a86, type: 3}
 --- !u!4 &3335993114368635641 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5608128777249647430, guid: 951d5dc005528494b880c3e997954770,
@@ -4806,7 +4778,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Acacia_Tree_1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2744514495638861366, guid: 7da2fbccefcba814d81b226e585fc872, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

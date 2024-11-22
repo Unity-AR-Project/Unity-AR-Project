@@ -883,7 +883,7 @@ PrefabInstance:
     - target: {fileID: 1766491271890713709, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1766491271890713709, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
@@ -893,7 +893,7 @@ PrefabInstance:
     - target: {fileID: 1766491271890713709, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1766491271890713709, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
@@ -908,7 +908,7 @@ PrefabInstance:
     - target: {fileID: 1766491271890713709, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 1766491271890713709, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
@@ -1629,11 +1629,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5089001352616227324, guid: 951d5dc005528494b880c3e997954770,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6215110258416121717}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 951d5dc005528494b880c3e997954770, type: 3}
 --- !u!4 &4888631654196200966 stripped
 Transform:
@@ -1641,34 +1637,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1009927810950901056}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5232118689807473852 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5089001352616227324, guid: 951d5dc005528494b880c3e997954770,
-    type: 3}
-  m_PrefabInstance: {fileID: 1009927810950901056}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &6215110258416121717
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5232118689807473852}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 8217705402921873875, guid: 27f89a1b4efd3e14eb1c724d143e7a86, type: 3}
 --- !u!1001 &1604529888117562980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1747,7 +1715,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pine_Tree_13
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3724105215999695007, guid: c1aa4768eb2570042a52eaf1bd080b87, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2817,7 +2786,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Acacia_Tree_1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2744514495638861366, guid: 7da2fbccefcba814d81b226e585fc872, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2906,7 +2876,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone house
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1125241145293702334, guid: 9ccf3795646fd134db0be857bb8e882b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
