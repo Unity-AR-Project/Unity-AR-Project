@@ -7,9 +7,21 @@ public class Chap5Contoller : MonoBehaviour, IChapterController
     private PlayableDirector playableDirector;
 
     private bool isPaused = false; // 일시정지 상태 여부
+
+    void OnEnable()
+    {
+
+
+        // 타임라인 시작
+        playableDirector.time = 0; // 타임라인 시간 초기화
+        playableDirector.Stop();   // 타임라인 정지
+        playableDirector.Play();   // 타임라인 재생
+    }
+
+
     void Start()
     {
-        playableDirector.Play();
+       // playableDirector.Play();
     }
 
     void Update()

@@ -13,6 +13,17 @@ public class Chap4Controller : MonoBehaviour, IChapterController
     private const double PauseTime = 13.8; // 타임라인 멈출 시간 (13.80초)
     public LayerMask groundLayer; // Ground 레이어를 지정 (레이캐스트가 충돌할 레이어)
 
+    void OnEnable()
+    {
+
+
+        // 타임라인 시작
+        playableDirector.time = 0; // 타임라인 시간 초기화
+        playableDirector.Stop();   // 타임라인 정지
+        playableDirector.Play();   // 타임라인 재생
+    }
+
+
     private void Start()
     {
         if (playableDirector != null)

@@ -4664,7 +4664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b716b0fed760e45948d0040ba5b80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiKey: 
+  apiKey: AIzaSyDCX39da3FUnBySCeMWQLQdhg8k80ztG0U
   sampleRate: 16000
   recordingLength: 3
   amplificationFactor: 1.25

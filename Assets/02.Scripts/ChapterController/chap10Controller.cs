@@ -15,6 +15,16 @@ public class chap10Controller : MonoBehaviour , IChapterController
     [SerializeField] private PlayableDirector timelineDirector; // 타임라인 연결
     public GameObject uiText; // UI 텍스트 오브젝트 (안내 메시지)
     private bool isPaused = false; // 일시정지 상태 여부
+    void OnEnable()
+    {
+
+
+        // 타임라인 시작
+        timelineDirector.time = 0; // 타임라인 시간 초기화
+        timelineDirector.Stop();   // 타임라인 정지
+        timelineDirector.Play();   // 타임라인 재생
+    }
+
 
     private void Start()
     {

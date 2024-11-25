@@ -22,6 +22,17 @@ public class chap8Controller : MonoBehaviour, IChapterController
 
     private bool isPaused = false; // 타임라인 멈춤 상태를 추적하는 플래그
 
+    void OnEnable()
+    {
+
+
+        // 타임라인 시작
+        timelineDirector.time = 0; // 타임라인 시간 초기화
+        timelineDirector.Stop();   // 타임라인 정지
+        timelineDirector.Play();   // 타임라인 재생
+    }
+
+
     private void Start()
     {
         // AR 카메라 설정

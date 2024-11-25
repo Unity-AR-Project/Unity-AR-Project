@@ -7,9 +7,20 @@ public class Chap6Contoller : MonoBehaviour, IChapterController
     private PlayableDirector playableDirector;
 
     private bool isPaused = false; // 타임라인 멈춤 상태를 추적하는 플래그
+    void OnEnable()
+    {
+
+
+        // 타임라인 시작
+        playableDirector.time = 0; // 타임라인 시간 초기화
+        playableDirector.Stop();   // 타임라인 정지
+        playableDirector.Play();   // 타임라인 재생
+    }
+
+
     void Start()
     {
-        playableDirector.Play();
+       // playableDirector.Play();
     }
 
     // Update is called once per frame
