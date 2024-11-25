@@ -93,7 +93,7 @@ public class SpeechToTextManager : MonoBehaviour
         if (transcript.Contains("ÈÄ"))
         {
             Debug.Log("Hoo detected!");
-            //onHooDetected?.Invoke();
+            onHooDetected?.Invoke();
         }
         else
         {
