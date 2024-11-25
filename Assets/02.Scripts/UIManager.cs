@@ -19,11 +19,14 @@ public class UIManager : MonoBehaviour
     [Tooltip("메시지 텍스트 프리팹 (TMP)")]
     [SerializeField] private GameObject messageTextPrefab;
 
+    //[Tooltip("메뉴얼 텍스트 프리팹 (TMP)")]
+    //[SerializeField] private GameObject pauseText; // 일시정지 
+
     // View: UI Elements
     private Button pauseButton;
     private GameObject loadingUI;
     private TextMeshProUGUI messageText;
-
+    
     // Controller: 상태 관리
     private bool isPaused = false;
 
@@ -47,6 +50,20 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// UI 요소들을 초기화합니다.
     /// </summary>
+    /// 
+    private void Start()
+    {
+        //pauseText.text = "동작을 멈추려면 화면을 터치하세요";
+       // pauseText.gameObject.SetActive(true);
+
+        //Invoke("HidePauseMessage", 5f); //5초후 종료, 시간 길면 줄이기
+    }
+
+    private void HidePauseMessage()
+    {
+        messageText.gameObject.SetActive(false);
+    }
+
     private void InitializeUIElements()
     {
         Canvas canvas = FindObjectOfType<Canvas>();
@@ -113,7 +130,7 @@ public class UIManager : MonoBehaviour
     private void OnPauseButtonClicked()
     {
         isPaused = !isPaused;
-        SoundManager.instance.ToggleNarrationPause();
+        //SoundManager.instance.ToggleNarrationPause();
         UpdatePauseButtonUI();
     }
 

@@ -8,7 +8,7 @@ public class Chap7Controller : MonoBehaviour, IChapterController
     [SerializeField]
     private PlayableDirector playableDirector;
 
-    private int maxBlowAttempts = 3; // 최대 시도 횟수
+    private int maxBlowAttempts = 4; // 최대 시도 횟수
     private int currentAttempt = 0;
 
     private SpeechToTextManager speechManager;
@@ -113,7 +113,7 @@ public class Chap7Controller : MonoBehaviour, IChapterController
                 else
                 {
                     // 실패 메시지 표시
-                    UIManager.instance.ShowMessage("아쉽네요~");
+                    UIManager.instance.ShowMessage("잘했 습니다!");
 
                     // 잠시 대기
                     yield return new WaitForSeconds(1f);

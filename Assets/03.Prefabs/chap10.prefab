@@ -5989,7 +5989,7 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 4e1e02b5d2e053745b064b5cee57f2d4, type: 2}
-  m_InitialState: 1
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
@@ -6041,7 +6041,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0d79e4acaf3074ba928ddca7b8aed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arCamera: {fileID: 0}
   _selectMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -6049,7 +6048,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   timelineDirector: {fileID: 1220613647109257129}
-  uiText: {fileID: 495358429590382813}
 --- !u!1 &7521298840893740719
 GameObject:
   m_ObjectHideFlags: 0

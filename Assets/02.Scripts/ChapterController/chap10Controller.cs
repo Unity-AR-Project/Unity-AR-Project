@@ -13,12 +13,10 @@ public class chap10Controller : MonoBehaviour , IChapterController
     private Vector3 initialPosition;
 
     [SerializeField] private PlayableDirector timelineDirector; // 타임라인 연결
-    public GameObject uiText; // UI 텍스트 오브젝트 (안내 메시지)
+    //public GameObject uiText; // UI 텍스트 오브젝트 (안내 메시지)
     private bool isPaused = false; // 일시정지 상태 여부
     void OnEnable()
     {
-
-
         // 타임라인 시작
         timelineDirector.time = 0; // 타임라인 시간 초기화
         timelineDirector.Stop();   // 타임라인 정지
@@ -39,10 +37,12 @@ public class chap10Controller : MonoBehaviour , IChapterController
         }
 
         // UI 텍스트를 시작 시 비활성화
-        if (uiText != null)
-        {
-            uiText.SetActive(true);
-        }
+        /* if (uiText != null)
+         {
+            // uiText.SetActive(true);
+         }*/
+        UIManager.instance.ShowMessage("돼지 형제들을 나무 위로 올라갔어요!");
+
 
         // 타임라인 초기화
         if (timelineDirector != null)
@@ -101,10 +101,10 @@ public class chap10Controller : MonoBehaviour , IChapterController
                         timelineDirector.Play();
                     }
 
-                    if (uiText != null)
+                   /* if (uiText != null)
                     {
                         uiText.SetActive(false); // UI 텍스트 비활성화
-                    }
+                    }*/
                 }
                 else
                 {

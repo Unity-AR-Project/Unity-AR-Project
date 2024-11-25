@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class Chap1Controller : MonoBehaviour
+public class Chap1Controller : MonoBehaviour, IChapterController
 {
     [SerializeField]
     private PlayableDirector playableDirector;
