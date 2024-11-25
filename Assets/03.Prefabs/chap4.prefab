@@ -1375,13 +1375,7 @@ PrefabInstance:
     - target: {fileID: 5325862638129296487, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Bip001 L Finger0'\n\tTransform 'Bip001 R
-        Clavicle'\n\tTransform 'Bip001 R UpperArm'\n\tTransform 'Bip001 Head'\n\tTransform
-        'Bip001 Spine1'\n\tTransform 'Bip001 L UpperArm'\n\tTransform 'Bip001 R Foot'\n\tTransform
-        'Bip001 L Clavicle'\n\tTransform 'Bip001 R Calf'\n\tTransform 'Bip001 L Hand'\n\tand
-        more ..."
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5692596307999352776, guid: 9443a33f2980a1b4abdce1a0a2a66712,
         type: 3}
@@ -1858,6 +1852,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5241151332951952753}
     m_Modifications:
+    - target: {fileID: 537306929461113900, guid: e0215481014a9d04ca6050ddc1e55e39,
+        type: 3}
+      propertyPath: m_RenderAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 929996135149911144, guid: e0215481014a9d04ca6050ddc1e55e39,
         type: 3}
       propertyPath: looping
@@ -2113,6 +2112,11 @@ PrefabInstance:
       propertyPath: InitialModule.startLifetime.scalar
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8054306954190339567, guid: e0215481014a9d04ca6050ddc1e55e39,
+        type: 3}
+      propertyPath: m_RenderAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8440727344293355910, guid: e0215481014a9d04ca6050ddc1e55e39,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2137,6 +2141,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825598682731396889, guid: e0215481014a9d04ca6050ddc1e55e39,
+        type: 3}
+      propertyPath: m_RenderAlignment
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3221,13 +3230,7 @@ PrefabInstance:
     - target: {fileID: 8600381296334479995, guid: e96193c8f0294a146b4178efae0ecf7f,
         type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Bip001 L Finger0'\n\tTransform 'Bip001 R
-        Clavicle'\n\tTransform 'Bip001 R UpperArm'\n\tTransform 'Bip001 Head'\n\tTransform
-        'Bip001 Spine1'\n\tTransform 'Bip001 L UpperArm'\n\tTransform 'Bip001 R Foot'\n\tTransform
-        'Bip001 L Clavicle'\n\tTransform 'Bip001 R Calf'\n\tTransform 'Bip001 L Hand'\n\tand
-        more ..."
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4957,6 +4960,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5241151332951952753}
     m_Modifications:
+    - target: {fileID: 537306929461113900, guid: e0215481014a9d04ca6050ddc1e55e39,
+        type: 3}
+      propertyPath: m_RenderAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 929996135149911144, guid: e0215481014a9d04ca6050ddc1e55e39,
         type: 3}
       propertyPath: looping
@@ -5212,6 +5220,11 @@ PrefabInstance:
       propertyPath: InitialModule.startLifetime.scalar
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8054306954190339567, guid: e0215481014a9d04ca6050ddc1e55e39,
+        type: 3}
+      propertyPath: m_RenderAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8440727344293355910, guid: e0215481014a9d04ca6050ddc1e55e39,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -5236,6 +5249,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825598682731396889, guid: e0215481014a9d04ca6050ddc1e55e39,
+        type: 3}
+      propertyPath: m_RenderAlignment
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
