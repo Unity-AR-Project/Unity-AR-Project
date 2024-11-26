@@ -5,6 +5,7 @@ using UnityEngine.XR.ARSubsystems;
 using UnityEngine.EventSystems;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 챕터 데이터 구조체: 챕터 이름, 프리팹, 이미지 이름들을 포함
@@ -47,7 +48,10 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     public GameObject testCube;
     public Text prefabPos;
     public Text prefabRot;
-
+    void Start()
+    {
+        //SceneManager.LoadScene("SampleScene"); // 씬 이름 정확히 확인
+    }
 
     private void Awake()
     {

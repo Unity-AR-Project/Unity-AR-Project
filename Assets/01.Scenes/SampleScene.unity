@@ -4802,9 +4802,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b716b0fed760e45948d0040ba5b80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiKey: AIzaSyDCX39da3FUnBySCeMWQLQdhg8k80ztG0U
+  apiKey: 
   sampleRate: 16000
-  recordingLength: 4
+  recordingLength: 2
   amplificationFactor: 1.25
 --- !u!1 &920969223
 GameObject:
@@ -5240,7 +5240,7 @@ MonoBehaviour:
     type: 3}
   messageTextPrefab: {fileID: 5629959566280311628, guid: badb667547f1c6848b73f81cab91e341,
     type: 3}
-  pauseText: {fileID: 4634672388068964133, guid: fe5854a82bbd83341ba715db064a2428,
+  userManualPrefab: {fileID: 4634672388068964133, guid: fe5854a82bbd83341ba715db064a2428,
     type: 3}
 --- !u!1 &984069240
 GameObject:

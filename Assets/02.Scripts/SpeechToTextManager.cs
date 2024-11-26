@@ -124,8 +124,8 @@ public class SpeechToTextManager : MonoBehaviour
     /// <returns>≥Ï¿Ω Ω√∞£ (√ )</returns>
     public float GetRecordingLength()
     {
-        //return speechRecognitionManager != null ? speechRecognitionManager.recordingLength : 5f;
-        return speechRecognitionManager.recordingLength;
+        return speechRecognitionManager != null ? speechRecognitionManager.recordingLength : 4f;
+        //return speechRecognitionManager.recordingLength;
     }
 
 }

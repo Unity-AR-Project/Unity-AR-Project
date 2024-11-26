@@ -87,6 +87,9 @@ public class Chap7Controller : MonoBehaviour, IChapterController
             // 음성 인식 중지
             speechManager.StopSpeechRecognition();
 
+            // 잠시 대기
+            yield return new WaitForSeconds(1f);
+
             // 이벤트 리스너 제거
             speechManager.onHooDetected.RemoveListener(hooListener);
 

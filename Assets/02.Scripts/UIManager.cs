@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,14 +20,15 @@ public class UIManager : MonoBehaviour
     [Tooltip("메시지 텍스트 프리팹 (TMP)")]
     [SerializeField] private GameObject messageTextPrefab;
 
-    //[Tooltip("메뉴얼 텍스트 프리팹 (TMP)")]
-    //[SerializeField] private GameObject pauseText; // 일시정지 
+    [Tooltip("사용자 메뉴얼 프리팹")]
+    [SerializeField] private GameObject userManualPrefab; 
 
     // View: UI Elements
     private Button pauseButton;
     private GameObject loadingUI;
     private TextMeshProUGUI messageText;
-    
+    private GameObject userManual; // 사용자 메뉴얼 인스턴스
+
     // Controller: 상태 관리
     private bool isPaused = false;
 
@@ -54,9 +56,36 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         //pauseText.text = "동작을 멈추려면 화면을 터치하세요";
-       // pauseText.gameObject.SetActive(true);
+        // pauseText.gameObject.SetActive(true);
 
-        //Invoke("HidePauseMessage", 5f); //5초후 종료, 시간 길면 줄이기
+        // 애플리케이션 시작 시 사용자 메뉴얼을 표시합니다.
+        ShowUserManual(5f); // 5초 동안 표시
+    }
+
+    /// <summary>
+    /// 사용자 메뉴얼을 표시하고 일정 시간 후에 숨깁니다.
+    /// </summary>
+    /// <param name="duration">표시 시간 (초)</param>
+    public void ShowUserManual(float duration)
+    {
+        if (userManual != null)
+        {
+            userManual.SetActive(true);
+            StartCoroutine(HideUserManualAfterDelay(duration));
+        }
+        else
+        {
+            Debug.LogWarning("User Manual is not set.");
+        }
+    }
+
+    private IEnumerator HideUserManualAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (userManual != null)
+        {
+            userManual.SetActive(false);
+        }
     }
 
     private void HidePauseMessage()

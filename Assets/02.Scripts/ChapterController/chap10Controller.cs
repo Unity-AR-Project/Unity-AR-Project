@@ -41,7 +41,7 @@ public class chap10Controller : MonoBehaviour , IChapterController
          {
             // uiText.SetActive(true);
          }*/
-        UIManager.instance.ShowMessage("돼지 형제들을 나무 위로 올라갔어요!");
+        UIManager.instance.ShowMessage("돼지 형제들은 나무 위로 올라갔어요!");
 
 
         // 타임라인 초기화
