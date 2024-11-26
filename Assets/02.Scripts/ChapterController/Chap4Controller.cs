@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using TMPro;
 
-public class Chap4Controller : MonoBehaviour
+public class Chap4Controller : MonoBehaviour, IChapterController
 {
     public PlayableDirector playableDirector; // 타임라인 제어를 위한 PlayableDirector
     public TextMeshProUGUI uiText; // UI 텍스트 오브젝트 (안내 메시지)
@@ -12,6 +12,17 @@ public class Chap4Controller : MonoBehaviour
 
     private const double PauseTime = 13.8; // 타임라인 멈출 시간 (13.80초)
     public LayerMask groundLayer; // Ground 레이어를 지정 (레이캐스트가 충돌할 레이어)
+
+    void OnEnable()
+    {
+
+
+        // 타임라인 시작
+        playableDirector.time = 0; // 타임라인 시간 초기화
+        playableDirector.Stop();   // 타임라인 정지
+        playableDirector.Play();   // 타임라인 재생
+    }
+
 
     private void Start()
     {
@@ -102,6 +113,23 @@ public class Chap4Controller : MonoBehaviour
     public void ResumeAudio()
     {
         AudioListener.pause = false;
+    }
+
+    /// <summary>
+    /// 타임라인 일시정지/재개 토글
+    /// </summary>
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            playableDirector.Play();
+            isPaused = false;
+        }
+        else
+        {
+            playableDirector.Pause();
+            isPaused = true;
+        }
     }
 
 }

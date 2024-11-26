@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
 
-public class chap9Controller : MonoBehaviour
+public class chap9Controller : MonoBehaviour, IChapterController
 {
     private bool isTouched = false;
     private GameObject selectedObj;
     [SerializeField] private Camera arCamera;
-
+ 
     [SerializeField] private LayerMask _selectMask;
     [SerializeField] private LayerMask _groundMask;
 
@@ -19,6 +19,19 @@ public class chap9Controller : MonoBehaviour
 
     [SerializeField] private PlayableDirector playableDirector; // 타임라인 컨트롤러
     private bool isDraggingEnabled = false; // 드래그 기능 활성화 여부
+
+    private bool isPaused = false; // 타임라인 멈춤 상태를 추적하는 플래그
+
+
+    void OnEnable()
+    {
+
+
+        // 타임라인 시작
+        playableDirector.time = 0; // 타임라인 시간 초기화
+        playableDirector.Stop();   // 타임라인 정지
+        playableDirector.Play();   // 타임라인 재생
+    }
 
     private void Start()
     {
@@ -141,9 +154,9 @@ public class chap9Controller : MonoBehaviour
     {
         switch (objectName)
         {
-            case "Apple1": return new Vector3(4.02f, 1.91f, -5.12f);
-            case "Apple2": return new Vector3(5.02f, 0.95f, -5.10f);
-            case "Apple3": return new Vector3(5.69f, 1.78f, -5.03f);
+            case "Apple1": return new Vector3(13f, 0f, -5.26f);
+            case "Apple2": return new Vector3(12.87f, 0f, -1.46f);
+            case "Apple3": return new Vector3(14.9f, 1.78f, -3.03f);
             default: return Vector3.zero; // 기본 위치는 0, 0, 0
         }
     }
@@ -193,4 +206,22 @@ public class chap9Controller : MonoBehaviour
             playableDirector.stopped -= OnTimelineStopped; // 이벤트 해제
         }
     }
+
+    /// <summary>
+    /// 타임라인 일시정지/재개 토글
+    /// </summary>
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            playableDirector.Play();
+            isPaused = false;
+        }
+        else
+        {
+            playableDirector.Pause();
+            isPaused = true;
+        }
+    }
+
 }

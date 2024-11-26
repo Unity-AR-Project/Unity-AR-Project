@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 499850051089376844}
   - component: {fileID: 1220613647109257129}
   - component: {fileID: 5863604135331122355}
+  - component: {fileID: 11690240814448777}
   m_Layer: 0
   m_Name: chap7
   m_TagString: Untagged
@@ -340,7 +341,7 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 943700d03462d1042931d8163e6c7126, type: 2}
-  m_InitialState: 1
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
@@ -351,6 +352,8 @@ PlayableDirector:
     value: {fileID: 1096217014361915496}
   - key: {fileID: 1760129234840652473, guid: 943700d03462d1042931d8163e6c7126, type: 2}
     value: {fileID: 0}
+  - key: {fileID: 5140983359086376492, guid: 943700d03462d1042931d8163e6c7126, type: 2}
+    value: {fileID: 11690240814448777}
   m_ExposedReferences:
     m_References:
     - 31a26e2f11ce99c439926fe285792bc1: {fileID: 7997786501953145194}
@@ -369,6 +372,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playableDirector: {fileID: 1220613647109257129}
+--- !u!114 &11690240814448777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6798762013047686073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 5deed73c9d87fdc4685a19e5fa48c356, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5863604135331122355}
+          m_TargetAssemblyTypeName: Chap7Controller, Assembly-CSharp
+          m_MethodName: OnBlowSignalReceived
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7397364175140017131
 GameObject:
   m_ObjectHideFlags: 0

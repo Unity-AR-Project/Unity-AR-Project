@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables; // PlayableDirector 관련 네임스페이스 추가
 
-public class chap8Controller : MonoBehaviour
+public class chap8Controller : MonoBehaviour, IChapterController
 {
     private bool isTouched = false;
     private GameObject selectedObj;
@@ -19,6 +19,19 @@ public class chap8Controller : MonoBehaviour
 
     [SerializeField] private PlayableDirector timelineDirector; // 타임라인 디렉터 추가
     private bool timelineCompleted = false; // 타임라인 종료 여부 확인 변수
+
+    private bool isPaused = false; // 타임라인 멈춤 상태를 추적하는 플래그
+
+    void OnEnable()
+    {
+
+
+        // 타임라인 시작
+        timelineDirector.time = 0; // 타임라인 시간 초기화
+        timelineDirector.Stop();   // 타임라인 정지
+        timelineDirector.Play();   // 타임라인 재생
+    }
+
 
     private void Start()
     {
@@ -183,4 +196,22 @@ public class chap8Controller : MonoBehaviour
             Debug.LogWarning("[Debug] : 모든 돼지가 나무에 고정되었습니다!");
         }
     }
+
+    /// <summary>
+    /// 타임라인 일시정지/재개 토글
+    /// </summary>
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            timelineDirector.Play();
+            isPaused = false;
+        }
+        else
+        {
+            timelineDirector.Pause();
+            isPaused = true;
+        }
+    }
+
 }

@@ -1,0 +1,5 @@
+C:/Data/GitHub/AR_Practice/Unity-AR-Project/.utmp/RelWithDebInfo/2v694l52/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Data/GitHub/AR_Practice/Unity-AR-Project/.utmp/RelWithDebInfo/2v694l52/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Data/GitHub/AR_Practice/Unity-AR-Project/.utmp/RelWithDebInfo/2v694l52/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/Data/GitHub/AR_Practice/Unity-AR-Project/.utmp/RelWithDebInfo/2v694l52/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/Data/GitHub/AR_Practice/Unity-AR-Project/.utmp/RelWithDebInfo/2v694l52/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir

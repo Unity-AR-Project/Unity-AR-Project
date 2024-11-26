@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,13 +17,17 @@ public class UIManager : MonoBehaviour
     [Tooltip("로딩 UI 프리팹")]
     [SerializeField] private GameObject loadingUIPrefab;
 
-    [Tooltip("에러 메시지 텍스트 프리팹")]
-    [SerializeField] private GameObject errorMessageTextPrefab;
+    [Tooltip("메시지 텍스트 프리팹 (TMP)")]
+    [SerializeField] private GameObject messageTextPrefab;
+
+    [Tooltip("사용자 메뉴얼 프리팹")]
+    [SerializeField] private GameObject userManualPrefab; 
 
     // View: UI Elements
     private Button pauseButton;
     private GameObject loadingUI;
-    private Text errorMessageText;
+    private TextMeshProUGUI messageText;
+    private GameObject userManual; // 사용자 메뉴얼 인스턴스
 
     // Controller: 상태 관리
     private bool isPaused = false;
@@ -46,12 +52,53 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// UI 요소들을 초기화합니다.
     /// </summary>
+    /// 
+    private void Start()
+    {
+        //pauseText.text = "동작을 멈추려면 화면을 터치하세요";
+        // pauseText.gameObject.SetActive(true);
+
+        // 애플리케이션 시작 시 사용자 메뉴얼을 표시합니다.
+        ShowUserManual(5f); // 5초 동안 표시
+    }
+
+    /// <summary>
+    /// 사용자 메뉴얼을 표시하고 일정 시간 후에 숨깁니다.
+    /// </summary>
+    /// <param name="duration">표시 시간 (초)</param>
+    public void ShowUserManual(float duration)
+    {
+        if (userManual != null)
+        {
+            userManual.SetActive(true);
+            StartCoroutine(HideUserManualAfterDelay(duration));
+        }
+        else
+        {
+            Debug.LogWarning("User Manual is not set.");
+        }
+    }
+
+    private IEnumerator HideUserManualAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (userManual != null)
+        {
+            userManual.SetActive(false);
+        }
+    }
+
+    private void HidePauseMessage()
+    {
+        messageText.gameObject.SetActive(false);
+    }
+
     private void InitializeUIElements()
     {
         Canvas canvas = FindObjectOfType<Canvas>();
         if (canvas == null)
         {
-            Debug.LogError("씬에 Canvas가 존재하지 않습니다.");
+            Debug.LogError("Canvas does not exist in the scene");
             return;
         }
 
@@ -86,23 +133,23 @@ public class UIManager : MonoBehaviour
             Debug.LogError("Loading UI Prefab이 설정되지 않았습니다.");
         }
 
-        // Error Message Text Initialization
-        if (errorMessageTextPrefab != null)
+        // Message Text Initialization (TMP)
+        if (messageTextPrefab != null)
         {
-            GameObject errorMessageObj = Instantiate(errorMessageTextPrefab, canvas.transform);
-            errorMessageText = errorMessageObj.GetComponent<Text>();
-            if (errorMessageText != null)
+            GameObject messageTextObj = Instantiate(messageTextPrefab, canvas.transform);
+            messageText = messageTextObj.GetComponent<TextMeshProUGUI>();
+            if (messageText != null)
             {
-                errorMessageText.gameObject.SetActive(false);
+                messageText.gameObject.SetActive(false);
             }
             else
             {
-                Debug.LogError("Error Message Text Prefab에 Text 컴포넌트가 없습니다.");
+                Debug.LogError("Message Text Prefab에 TextMeshProUGUI 컴포넌트가 없습니다.");
             }
         }
         else
         {
-            Debug.LogError("Error Message Text Prefab이 설정되지 않았습니다.");
+            Debug.LogError("Message Text Prefab이 설정되지 않았습니다.");
         }
     }
 
@@ -123,10 +170,10 @@ public class UIManager : MonoBehaviour
     {
         if (pauseButton != null)
         {
-            Text buttonText = pauseButton.GetComponentInChildren<Text>();
+            TextMeshProUGUI buttonText = pauseButton.GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
-                buttonText.text = isPaused ? "Play" : "Pause";
+                buttonText.text = isPaused ? "재생" : "일시정지";
             }
         }
     }
@@ -160,10 +207,11 @@ public class UIManager : MonoBehaviour
     /// <param name="message">표시할 메시지</param>
     public void ShowLoadingUI(string message)
     {
+        Debug.Log("ShowMessage Hoo : " + message);
         if (loadingUI != null)
         {
             loadingUI.SetActive(true);
-            Text loadingText = loadingUI.GetComponentInChildren<Text>();
+            TextMeshProUGUI loadingText = loadingUI.GetComponentInChildren<TextMeshProUGUI>();
             if (loadingText != null)
             {
                 loadingText.text = message;
@@ -183,27 +231,29 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 에러 메시지를 화면에 표시합니다.
+    /// 메시지를 화면에 표시합니다.
     /// </summary>
     /// <param name="message">표시할 메시지</param>
-    public void ShowErrorMessage(string message)
+    public void ShowMessage(string message)
     {
-        if (errorMessageText != null)
+        if (messageText != null)
         {
-            errorMessageText.gameObject.SetActive(true);
-            errorMessageText.text = message;
-            Invoke("HideErrorMessage", 3f); // 3초 후에 자동으로 숨김
+            Debug.Log("messageText: " + messageText);
+            messageText.gameObject.SetActive(true);
+            messageText.text = message;
+            // 일정 시간 후에 자동으로 숨김
+            Invoke("HideMessage", 3f);
         }
     }
 
     /// <summary>
-    /// 에러 메시지를 화면에서 숨깁니다.
+    /// 메시지를 화면에서 숨깁니다.
     /// </summary>
-    private void HideErrorMessage()
+    public void HideMessage()
     {
-        if (errorMessageText != null)
+        if (messageText != null)
         {
-            errorMessageText.gameObject.SetActive(false);
+            messageText.gameObject.SetActive(false);
         }
     }
 }

@@ -2,18 +2,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
 
-public class chap10Controller : MonoBehaviour
+public class chap10Controller : MonoBehaviour , IChapterController
 {
     private bool isTouched = false;
     private GameObject selectedObj;
-    [SerializeField] private Camera arCamera; // AR Camera 연결 필요
+    private Camera arCamera; // AR Camera 연결 필요
     [SerializeField] private LayerMask _selectMask; // 터치 가능한 오브젝트 레이어
     [SerializeField] private LayerMask _groundMask; // 이동 가능한 바닥 레이어
 
     private Vector3 initialPosition;
 
     [SerializeField] private PlayableDirector timelineDirector; // 타임라인 연결
-    public GameObject uiText; // UI 텍스트 오브젝트 (안내 메시지)
+    //public GameObject uiText; // UI 텍스트 오브젝트 (안내 메시지)
+    private bool isPaused = false; // 일시정지 상태 여부
+    void OnEnable()
+    {
+        // 타임라인 시작
+        timelineDirector.time = 0; // 타임라인 시간 초기화
+        timelineDirector.Stop();   // 타임라인 정지
+        timelineDirector.Play();   // 타임라인 재생
+    }
+
 
     private void Start()
     {
@@ -28,10 +37,12 @@ public class chap10Controller : MonoBehaviour
         }
 
         // UI 텍스트를 시작 시 비활성화
-        if (uiText != null)
-        {
-            uiText.SetActive(true);
-        }
+        /* if (uiText != null)
+         {
+            // uiText.SetActive(true);
+         }*/
+        UIManager.instance.ShowMessage("돼지 형제들은 나무 위로 올라갔어요!");
+
 
         // 타임라인 초기화
         if (timelineDirector != null)
@@ -90,10 +101,10 @@ public class chap10Controller : MonoBehaviour
                         timelineDirector.Play();
                     }
 
-                    if (uiText != null)
+                   /* if (uiText != null)
                     {
                         uiText.SetActive(false); // UI 텍스트 비활성화
-                    }
+                    }*/
                 }
                 else
                 {
@@ -111,6 +122,22 @@ public class chap10Controller : MonoBehaviour
             isTouched = false;
             selectedObj.layer = LayerMask.NameToLayer("ARSelectable");
             selectedObj.SetActive(false);
+        }
+    }
+    /// <summary>
+    /// 타임라인 일시정지/재개 토글
+    /// </summary>
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            timelineDirector.Play();
+            isPaused = false;
+        }
+        else
+        {
+            timelineDirector.Pause();
+            isPaused = true;
         }
     }
 }
