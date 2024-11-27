@@ -16,16 +16,46 @@ public class Chap2Controller : MonoBehaviour ,IChapterController
     private bool isBlowProcessStarted = false; // 추가: 후 불기 프로세스 시작 여부
     private bool isPaused = false; // 일시정지 상태 여부
 
+    //프리팹 초기화
+ /*   [SerializeField] private GameObject chapter2Prefab; // 챕터 7 프리팹
+    [SerializeField] private Transform prefabParent; // 프리팹을 인스턴스화할 부모 오브젝트
+    private GameObject chapter2Instance; // 현재 활성화된 챕터 7 인스턴스*/
 
     void OnEnable()
     {
-        // 상태 초기화
-        ResetState();
+       /* if (chapter2Instance != null)
+        {
+            Destroy(chapter2Instance);
+        }
 
-        // 타임라인 시작
-        playableDirector.time = 0; // 타임라인 시간 초기화
-        playableDirector.Stop();   // 타임라인 정지
-        playableDirector.Play();   // 타임라인 재생
+        // 챕터 2 프리팹 인스턴스화
+        if (chapter2Prefab != null && prefabParent != null)
+        {
+            chapter2Instance = Instantiate(chapter2Prefab, prefabParent);
+            chapter2Instance.tag = "Chapter2Instance"; // 필요 시 태그 설정
+            chapter2Instance.SetActive(true);
+            Debug.Log("[chap2Controller] Chapter2 prefab instantiated.");
+        }
+        else
+        {
+            Debug.LogError("[chap2Controller] Chapter2Prefab or PrefabParent is not assigned.");
+        }
+
+        // 타임라인 초기 설정: 재생하지 않고 대기 상태로 설정
+        if (playableDirector != null)
+        {*/
+            // 상태 초기화
+            ResetState();
+
+            // 타임라인 시작
+            playableDirector.time = 0; // 타임라인 시간 초기화
+            playableDirector.Stop();   // 타임라인 정지
+            playableDirector.Play();   // 타임라인 재생
+     /*   }
+        else
+        {
+            Debug.LogError("[chap2Controller] PlayableDirector not assigned.");
+        }*/
     }
 
     /// <summary>

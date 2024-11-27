@@ -2,74 +2,84 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
+using TMPro;
+using UnityEngine.Audio;
 
 public class chap9Controller : MonoBehaviour, IChapterController
 {
-    private bool isTouched = false;
+    [SerializeField] private LayerMask _selectMask; // 선택 가능한 오브젝트 레이어
+    [SerializeField] private LayerMask _groundMask; // 이동 가능한 바닥 레이어
+
+    [Header("Timeline & UI")]
+    public PlayableDirector playableDirector; // 타임라인 제어를 위한 PlayableDirector
+    public TextMeshProUGUI uiText; // UI 텍스트 오브젝트 (안내 메시지)
+
+    [Header("Drag Settings")]
     private GameObject selectedObj;
-    [SerializeField] private Camera arCamera;
- 
-    [SerializeField] private LayerMask _selectMask;
-    [SerializeField] private LayerMask _groundMask;
-
     private Vector3 initialPosition;
+    private bool isTouched = false;
 
-    [SerializeField] private GameObject uiTextObject; // 텍스트가 포함된 UI 오브젝트
-    private Text uiText; // UI 텍스트 컴포넌트
+    private bool isPaused = false; // 타임라인 멈춤 상태 추적
+    private const double PauseTime = 15.8; // 타임라인 멈출 시점
 
-    [SerializeField] private PlayableDirector playableDirector; // 타임라인 컨트롤러
-    private bool isDraggingEnabled = false; // 드래그 기능 활성화 여부
+    private AudioSource audioSource;   // 재생 중인 AudioSource
 
-    private bool isPaused = false; // 타임라인 멈춤 상태를 추적하는 플래그
-
-
+   /* //프리팹 초기화
+    [SerializeField] private GameObject chapter9Prefab; // 챕터 7 프리팹
+    [SerializeField] private Transform prefabParent; // 프리팹을 인스턴스화할 부모 오브젝트
+    private GameObject chapter9Instance; // 현재 활성화된 챕터 7 인스턴스
+*/
     void OnEnable()
     {
-
-
-        // 타임라인 시작
-        playableDirector.time = 0; // 타임라인 시간 초기화
-        playableDirector.Stop();   // 타임라인 정지
-        playableDirector.Play();   // 타임라인 재생
-    }
-
-    private void Start()
-    {
-        if (arCamera == null)
+     /*   if (chapter9Instance != null)
         {
-            arCamera = Camera.main; // 기본적으로 "Main Camera"로 할당
-            if (arCamera == null)
-            {
-                Debug.LogError("[Debug] : chap9 AR Camera not assigned.");
-            }
+            Destroy(chapter9Instance);
         }
 
-        // UI 텍스트 초기화
-        if (uiTextObject != null)
+        // 챕터 9 프리팹 인스턴스화
+        if (chapter9Prefab != null && prefabParent != null)
         {
-            uiText = uiTextObject.GetComponent<Text>();
-            if (uiText == null)
-            {
-                Debug.LogError("No Text component found on the assigned GameObject.");
-            }
-
-            uiTextObject.SetActive(false); // 시작 시 UI 비활성화
-        }
-
-        // 타임라인 이벤트 설정
-        if (playableDirector != null)
-        {
-            playableDirector.stopped += OnTimelineStopped; // 타임라인 종료 이벤트 등록
+            chapter9Instance = Instantiate(chapter9Prefab, prefabParent);
+            chapter9Instance.tag = "Chapter1Instance"; // 필요 시 태그 설정
+            chapter9Instance.SetActive(true);
+            Debug.Log("[chap9Controller] Chapter9 prefab instantiated.");
         }
         else
         {
-            Debug.LogError("[Debug] : PlayableDirector not assigned.");
+            Debug.LogError("[chap9Controller] Chapter9Prefab or PrefabParent is not assigned.");
+        }
+        if (playableDirector != null)
+        {*/
+            // 타임라인 시작
+            audioSource.UnPause();
+            playableDirector.time = 0; // 타임라인 시간 초기화
+            playableDirector.Stop();   // 타임라인 정지
+            playableDirector.Play();   // 타임라인 재생
+    /*    }
+        else
+        {
+            Debug.LogError("[chap9Controller] PlayableDirector not assigned.");
+        }*/
+    }
+
+
+    private void Start()
+    {
+        if (playableDirector != null)
+        {
+            playableDirector.stopped += OnPlayableDirectorStopped;
+            Invoke(nameof(PauseTimelineAtSpecificTime), (float)PauseTime);
+        }
+
+        if (uiText != null)
+        {
+            uiText.gameObject.SetActive(false);
         }
     }
 
     private void Update()
     {
-        if (!isDraggingEnabled || Input.touchCount == 0) return;
+        if (!isPaused || Input.touchCount == 0) return;
 
         Touch touch = Input.GetTouch(0);
 
@@ -77,7 +87,8 @@ public class chap9Controller : MonoBehaviour, IChapterController
         if (touch.phase == TouchPhase.Began)
         {
             Debug.LogWarning("[Debug] : chap9 Start Touch");
-            Ray ray = arCamera.ScreenPointToRay(touch.position);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _selectMask))
@@ -90,7 +101,7 @@ public class chap9Controller : MonoBehaviour, IChapterController
                     initialPosition = selectedObj.transform.position;
                     isTouched = true;
                     selectedObj.layer = LayerMask.NameToLayer("ARSelected");
-                    Debug.LogWarning("[Debug] : {selectedObj.name}");
+                    Debug.LogWarning($"[Debug] : {selectedObj.name}");
                 }
             }
         }
@@ -98,7 +109,7 @@ public class chap9Controller : MonoBehaviour, IChapterController
         // 터치 이동
         if (touch.phase == TouchPhase.Moved && isTouched && selectedObj != null)
         {
-            Ray ray = arCamera.ScreenPointToRay(touch.position);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _groundMask))
@@ -169,42 +180,64 @@ public class chap9Controller : MonoBehaviour, IChapterController
 
         if (allApplesOnWolf)
         {
-            isDraggingEnabled = false; // 드래그 기능 비활성화
 
-            if (uiTextObject != null)
+            if (uiText != null)
             {
-                uiTextObject.SetActive(false); // 모든 사과가 고정되면 UI 숨김
+                uiText.gameObject.SetActive(false); // 모든 사과가 고정되면 UI 숨김
             }
 
-            // 나레이션 재개
-            AudioListener.pause = false;
+            // 타임라인 및 오디오 재개
+            ResumeTimeline();
+
             Debug.LogWarning("[Debug] : 모든 사과가 늑대에 고정되었습니다. 나레이션 재생 시작.");
         }
     }
 
-    // 타임라인 종료 이벤트 핸들러
-    public void OnTimelineStopped(PlayableDirector director)
+    private void ResumeTimeline()
     {
-        if (director == playableDirector)
+        if (playableDirector != null)
         {
-            Debug.LogWarning("[Debug] : Timeline stopped. Enable dragging and show UI text.");
-            AudioListener.pause = true; // 나레이션 정지
-            isDraggingEnabled = true; // 드래그 기능 활성화
+            playableDirector.Play();
+            isPaused = false;
+            audioSource.UnPause(); // 오디오 재개
 
-            if (uiTextObject != null)
+            if (uiText != null)
             {
-                uiTextObject.SetActive(true);
-                uiText.text = "돼지가 들고 있는 사과를 늑대에게 던져주세요.";
+                uiText.gameObject.SetActive(false);
+            }
+
+            Debug.Log("[Debug] : Timeline and narration resumed.");
+        }
+    }
+
+
+    private void PauseTimelineAtSpecificTime()
+    {
+        if (playableDirector != null)
+        {
+            playableDirector.Pause();
+            isPaused = true;
+
+            if (uiText != null)
+            {
+                //uiText.gameObject.SetActive(true);
+                //uiText.text = "Throw the apple at the wolf!";
+                UIManager.instance.ShowMessage("사과를 늑대에게 던져주세요~");
             }
         }
     }
 
-    private void OnDestroy()
+    private void OnPlayableDirectorStopped(PlayableDirector director)
     {
-        if (playableDirector != null)
+        if (director == playableDirector)
         {
-            playableDirector.stopped -= OnTimelineStopped; // 이벤트 해제
+            Debug.Log("[Debug] : Timeline has ended.");
         }
+    }
+
+    public void PauseAudio()
+    {
+        audioSource.Pause(); //오디오 일시정지
     }
 
     /// <summary>

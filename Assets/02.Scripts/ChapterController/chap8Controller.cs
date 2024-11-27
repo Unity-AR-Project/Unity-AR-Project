@@ -17,19 +17,50 @@ public class chap8Controller : MonoBehaviour, IChapterController
     [SerializeField] private GameObject uiTextObject; // 텍스트가 포함된 UI 오브젝트
     private Text uiText; // UI 텍스트 컴포넌트
 
-    [SerializeField] private PlayableDirector timelineDirector; // 타임라인 디렉터 추가
+    [SerializeField] private PlayableDirector playableDirector; // 타임라인 디렉터 추가
     private bool timelineCompleted = false; // 타임라인 종료 여부 확인 변수
 
     private bool isPaused = false; // 타임라인 멈춤 상태를 추적하는 플래그
 
+    /*//프리팹 초기화
+    [SerializeField] private GameObject chapter8Prefab; // 챕터 7 프리팹
+    [SerializeField] private Transform prefabParent; // 프리팹을 인스턴스화할 부모 오브젝트
+    private GameObject chapter8Instance; // 현재 활성화된 챕터 7 인스턴스
+*/
     void OnEnable()
     {
+        /*if (chapter8Instance != null)
+        {
+            Destroy(chapter8Instance);
+        }
+
+        // 챕터 8 프리팹 인스턴스화
+        if (chapter8Prefab != null && prefabParent != null)
+        {
+            chapter8Instance = Instantiate(chapter8Prefab, prefabParent);
+            chapter8Instance.tag = "Chapter8Instance"; // 필요 시 태그 설정
+            chapter8Instance.SetActive(true);
+            Debug.Log("[chap8Controller] Chapter8 prefab instantiated.");
+        }
+        else
+        {
+            Debug.LogError("[chap8Controller] Chapter8Prefab or PrefabParent is not assigned.");
+        }*/
+
+       /* // 타임라인 초기 설정: 재생하지 않고 대기 상태로 설정
+        if (playableDirector != null)
+        {*/
 
 
-        // 타임라인 시작
-        timelineDirector.time = 0; // 타임라인 시간 초기화
-        timelineDirector.Stop();   // 타임라인 정지
-        timelineDirector.Play();   // 타임라인 재생
+            // 타임라인 시작
+            playableDirector.time = 0; // 타임라인 시간 초기화
+            playableDirector.Stop();   // 타임라인 정지
+            playableDirector.Play();   // 타임라인 재생
+       /* }
+        else
+        {
+            Debug.LogError("[chap8Controller] PlayableDirector not assigned.");
+        }*/
     }
 
 
@@ -46,10 +77,10 @@ public class chap8Controller : MonoBehaviour, IChapterController
         }
 
         // 타임라인 디렉터 설정
-        if (timelineDirector != null)
+        if (playableDirector != null)
         {
-            timelineDirector.stopped += OnTimelineStopped; // 타임라인 종료 이벤트 등록
-            timelineDirector.Play(); // 타임라인 재생
+            playableDirector.stopped += OnTimelineStopped; // 타임라인 종료 이벤트 등록
+            playableDirector.Play(); // 타임라인 재생
         }
         else
         {
@@ -67,12 +98,13 @@ public class chap8Controller : MonoBehaviour, IChapterController
 
             uiTextObject.SetActive(false); // 시작 시 UI 비활성화
             uiText.text = "돼지 형제들을 나무로 옮겨주세요."; // 초기 텍스트 설정
+           
         }
     }
 
     private void OnTimelineStopped(PlayableDirector director)
     {
-        if (director == timelineDirector)
+        if (director == playableDirector)
         {
             Debug.Log("[Debug] : Timeline has finished.");
             timelineCompleted = true; // 타임라인 종료 상태 업데이트
@@ -119,7 +151,7 @@ public class chap8Controller : MonoBehaviour, IChapterController
         {
             Ray ray = arCamera.ScreenPointToRay(touch.position);
             RaycastHit hit;
-
+            
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _groundMask))
             {
                 if (hit.collider.gameObject.name == "tree_2")
@@ -136,6 +168,7 @@ public class chap8Controller : MonoBehaviour, IChapterController
 
                     Debug.LogWarning($"[Debug] : {selectedObj.name} fixed at {fixedPosition}");
 
+                    
                     // 모든 돼지가 나무에 고정되었는지 확인
                     CheckAllPigsOnTree();
                 }
@@ -194,7 +227,14 @@ public class chap8Controller : MonoBehaviour, IChapterController
                 uiTextObject.SetActive(false); // 모든 돼지가 고정되면 UI 숨김
             }
             Debug.LogWarning("[Debug] : 모든 돼지가 나무에 고정되었습니다!");
+            
+
         }
+    }
+
+    public void TimeLineEnd()
+    {
+        UIManager.instance.ShowMessage("돼지 형제들을 나무로 옮겨주세요!");
     }
 
     /// <summary>
@@ -204,12 +244,12 @@ public class chap8Controller : MonoBehaviour, IChapterController
     {
         if (isPaused)
         {
-            timelineDirector.Play();
+            playableDirector.Play();
             isPaused = false;
         }
         else
         {
-            timelineDirector.Pause();
+            playableDirector.Pause();
             isPaused = true;
         }
     }

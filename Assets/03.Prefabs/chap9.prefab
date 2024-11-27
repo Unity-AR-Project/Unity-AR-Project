@@ -506,7 +506,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0289, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6420379956297031907}
@@ -543,7 +543,7 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: d8847b9fb2adb7549922135c6ba72ab7, type: 2}
-  m_InitialState: 0
+  m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
@@ -587,15 +587,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e543bf4d53f72a409c6a2b7b5c2b88e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arCamera: {fileID: 0}
   _selectMask:
     serializedVersion: 2
     m_Bits: 1024
   _groundMask:
     serializedVersion: 2
     m_Bits: 768
-  uiTextObject: {fileID: 2739667932540054932}
   playableDirector: {fileID: 1220613647109257129}
+  uiText: {fileID: 3650737300525124766}
+  chapter9Prefab: {fileID: 6798762013047686073}
+  prefabParent: {fileID: 3480886868405693410, guid: e2bdc47cacb585a418e3cbf80faa7708,
+    type: 3}
 --- !u!114 &3444874907132623037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,18 +612,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Events:
     m_Signals:
-    - {fileID: 11400000, guid: 65e2657771099e44ebfb578f6d240b05, type: 2}
+    - {fileID: 11400000, guid: 44cb12c0bfc6118408e47ee1608646df, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 5602848341957931220}
           m_TargetAssemblyTypeName: chap9Controller, Assembly-CSharp
-          m_MethodName: OnTimelineStopped
-          m_Mode: 2
+          m_MethodName: PauseAudio
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1220613647109257129}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Playables.PlayableDirector,
-              UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -658,17 +659,17 @@ PrefabInstance:
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
@@ -678,12 +679,12 @@ PrefabInstance:
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.54
+      value: 6.95
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.67
+      value: -1.42
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
@@ -5979,17 +5980,17 @@ PrefabInstance:
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
@@ -5999,12 +6000,12 @@ PrefabInstance:
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.15
+      value: 7.4699993
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.2
+      value: -1.9499999
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
@@ -6470,17 +6471,17 @@ PrefabInstance:
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
@@ -6490,12 +6491,12 @@ PrefabInstance:
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.47
+      value: 7.589999
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.65
+      value: -2.3999999
       objectReference: {fileID: 0}
     - target: {fileID: 2133070436418813398, guid: 3a3c0a4585e7b384384084b37b116bf4,
         type: 3}

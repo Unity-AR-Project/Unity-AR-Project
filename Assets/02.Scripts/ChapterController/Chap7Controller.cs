@@ -16,16 +16,46 @@ public class Chap7Controller : MonoBehaviour, IChapterController
     private bool isBlowProcessStarted = false; // 추가: 후 불기 프로세스 시작 여부
     private bool isPaused = false; // 일시정지 상태 여부
 
+   /* //프리팹 초기화
+    [SerializeField] private GameObject chapter7Prefab; // 챕터 7 프리팹
+    [SerializeField] private Transform prefabParent; // 프리팹을 인스턴스화할 부모 오브젝트
+    private GameObject chapter7Instance; // 현재 활성화된 챕터 7 인스턴스*/
 
     void OnEnable()
-    {
-        // 상태 초기화
-        ResetState();
+    {/*
+        if (chapter7Instance != null)
+        {
+            Destroy(chapter7Instance);
+        }
 
-        // 타임라인 시작
-        playableDirector.time = 0; // 타임라인 시간 초기화
-        playableDirector.Stop();   // 타임라인 정지
-        playableDirector.Play();   // 타임라인 재생
+        // 챕터 7 프리팹 인스턴스화
+        if (chapter7Prefab != null && prefabParent != null)
+        {
+            chapter7Instance = Instantiate(chapter7Prefab, prefabParent);
+            chapter7Instance.tag = "Chapter7Instance"; // 필요 시 태그 설정
+            chapter7Instance.SetActive(true);
+            Debug.Log("[chap7Controller] Chapter7 prefab instantiated.");
+        }
+        else
+        {
+            Debug.LogError("[chap7Controller] Chapter7Prefab or PrefabParent is not assigned.");
+        }
+
+        // 타임라인 초기 설정: 재생하지 않고 대기 상태로 설정
+        if (playableDirector != null)
+        {*/
+            // 상태 초기화
+            ResetState();
+
+            // 타임라인 시작
+            playableDirector.time = 0; // 타임라인 시간 초기화
+            playableDirector.Stop();   // 타임라인 정지
+            playableDirector.Play();   // 타임라인 재생
+      /*  }
+        else
+        {
+            Debug.LogError("[chap7Controller] PlayableDirector not assigned.");
+        }*/
     }
 
     /// <summary>
@@ -116,7 +146,7 @@ public class Chap7Controller : MonoBehaviour, IChapterController
                 else
                 {
                     // 실패 메시지 표시
-                    UIManager.instance.ShowMessage("잘했 습니다!");
+                    UIManager.instance.ShowMessage("잘했습니다!");
 
                     // 잠시 대기
                     yield return new WaitForSeconds(1f);
