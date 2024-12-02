@@ -49,8 +49,11 @@ public class Chap7Controller : MonoBehaviour, IChapterController
 
             // 타임라인 시작
             playableDirector.time = 0; // 타임라인 시간 초기화
-            playableDirector.Stop();   // 타임라인 정지
-            playableDirector.Play();   // 타임라인 재생
+        playableDirector.Stop();   // 타임라인 정지
+        UIManager.instance.ShowMessage("7챕터 시작되었습니다.\n" +
+            "기다려주세요!");
+
+        playableDirector.Play();   // 타임라인 재생
       /*  }
         else
         {

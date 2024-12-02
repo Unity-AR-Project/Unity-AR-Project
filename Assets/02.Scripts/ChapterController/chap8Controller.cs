@@ -55,7 +55,10 @@ public class chap8Controller : MonoBehaviour, IChapterController
             // 타임라인 시작
             playableDirector.time = 0; // 타임라인 시간 초기화
             playableDirector.Stop();   // 타임라인 정지
-            playableDirector.Play();   // 타임라인 재생
+                                       // 초기 메시지 표시
+        UIManager.instance.ShowMessage("8챕터 시작되었습니다.\n " +
+            "기다려주세요!");
+        playableDirector.Play();   // 타임라인 재생
        /* }
         else
         {
@@ -97,7 +100,7 @@ public class chap8Controller : MonoBehaviour, IChapterController
             }
 
             uiTextObject.SetActive(false); // 시작 시 UI 비활성화
-            uiText.text = "돼지 형제들을 나무로 옮겨주세요."; // 초기 텍스트 설정
+            uiText.text = "돼지 형제들을 \n나무로 옮겨주세요."; // 초기 텍스트 설정
            
         }
     }
@@ -227,14 +230,14 @@ public class chap8Controller : MonoBehaviour, IChapterController
                 uiTextObject.SetActive(false); // 모든 돼지가 고정되면 UI 숨김
             }
             Debug.LogWarning("[Debug] : 모든 돼지가 나무에 고정되었습니다!");
-            
+            UIManager.instance.ShowMessage("잘했어요!");
 
         }
     }
 
     public void TimeLineEnd()
     {
-        UIManager.instance.ShowMessage("돼지 형제들을 나무로 옮겨주세요!");
+        UIManager.instance.ShowMessage("돼지 형제들을 \n나무로 옮겨주세요!");
     }
 
     /// <summary>

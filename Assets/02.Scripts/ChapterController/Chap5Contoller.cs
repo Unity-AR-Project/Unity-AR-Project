@@ -41,7 +41,10 @@ public class Chap5Contoller : MonoBehaviour, IChapterController
             // 타임라인 시작
             playableDirector.time = 0; // 타임라인 시간 초기화
             playableDirector.Stop();   // 타임라인 정지
-            playableDirector.Play();   // 타임라인 재생
+                                       // 초기 메시지 표시
+        UIManager.instance.ShowMessage("5챕터 시작되었습니다.\n" +
+            " 기다려주세요!");
+        playableDirector.Play();   // 타임라인 재생
       /*  }
         else
         {

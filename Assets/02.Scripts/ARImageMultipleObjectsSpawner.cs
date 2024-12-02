@@ -4,12 +4,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.EventSystems;
 using System.Collections;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-/// <summary>
-/// 챕터 데이터 구조체: 챕터 이름, 프리팹, 이미지 이름들을 포함
-/// </summary>
 [System.Serializable]
 public struct ChapterData
 {
@@ -19,17 +14,11 @@ public struct ChapterData
     public bool useSpeechRecognition;   // 음성 인식 기능 사용 여부
 }
 
-/// <summary>
-/// 여러 이미지를 인식하여 대응되는 챕터의 오브젝트를 관리하고 나레이션을 재생하는 클래스
-/// </summary>
 [RequireComponent(typeof(ARTrackedImageManager))]
 public class ARImageMultipleObjectsSpawner : MonoBehaviour
 {
-
     private ARTrackedImageManager _trackedImageManager;
-    //Add
-    //public ARSession arSession;
-    private ARAnchor _coverAnchor;
+    private GameObject _coverAnchor; // ARAnchor 대신 GameObject로 변경
 
     [Tooltip("각 챕터에 대응하는 데이터 설정")]
     public ChapterData[] chapters;
@@ -40,17 +29,24 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     private string _currentChapter = "";
     private IChapterController _currentChapterController = null; // 추가: 현재 챕터 컨트롤러
 
+    //Tracking상태
+    private TrackingState _previousTrackingState = TrackingState.None;
+    private float _trackingStateChangeTime = 0f;
+    private float _trackingStateStableDuration = 0.5f; // 상태가 안정적으로 유지되어야 하는 시간
+    private bool _isTrackingMessageVisible = false;
+
     //Add
     private bool _isTracking = false;
     private bool _isTimer = false;
     private float _timer = 0;
     private float _maxTimer = 5f;
     public GameObject testCube;
-    public Text prefabPos;
-    public Text prefabRot;
+
+    private bool _isCoverAnchorSet = false; // 커버 앵커가 완료되었는지 여부
+
     void Start()
     {
-        //SceneManager.LoadScene("SampleScene"); // 씬 이름 정확히 확인
+        // 필요한 초기화 코드
     }
 
     private void Awake()
@@ -145,31 +141,30 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 추적된 이미지 변경 시 호출되는 콜백 메서드
-    /// </summary>
-    /// <param name="eventArgs">이벤트 인자</param>
     private void OnTrackedImagesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
         // 추가된 이미지 처리
         foreach (ARTrackedImage trackedImage in eventArgs.added)
         {
-            //Add
-            if (trackedImage.referenceImage.name == "chap0" && _coverAnchor == null)
+            if (trackedImage.referenceImage.name == "chap0" && !_isCoverAnchorSet)
             {
                 CenterPosition(trackedImage);
             }
 
+            // 커버 앵커가 설정되지 않았을 경우 메시지 표시
+            if (!_isCoverAnchorSet)
+            {
+                UIManager.instance.ShowMessage("커버 이미지를 인식하도록 설정해 주세요.");
+            }
+
+            LogTrackingState(trackedImage);
             HandleTrackedImage(trackedImage);
         }
 
         // 업데이트된 이미지 처리
         foreach (ARTrackedImage trackedImage in eventArgs.updated)
         {
-            if (trackedImage.referenceImage.name != "chap0")
-            {
-                testCube.SetActive(false);
-            }
+            LogTrackingState(trackedImage);
             HandleTrackedImage(trackedImage);
         }
 
@@ -181,7 +176,7 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             if (_trackedImages.Contains(imageName))
             {
                 _trackedImages.Remove(imageName);
-                Debug.Log($"이미지 '{imageName}' 추적 손실.");
+                Debug.Log($"ImageTrack '{imageName}' tracking loss.");
 
                 UpdateChapterState();
             }
@@ -189,9 +184,70 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// 개별 추적 이미지를 처리하는 메서드
+    /// TrackingState 이벤트 메시지
     /// </summary>
-    /// <param name="trackedImage">ARTrackedImage 인스턴스</param>
+    /// <param name="trackedImage"></param>
+    private void LogTrackingState(ARTrackedImage trackedImage)
+    {
+        TrackingState currentTrackingState = trackedImage.trackingState;
+
+
+        //TrackingState
+        if (trackedImage.trackingState == TrackingState.Tracking)
+        {
+            Debug.Log($"ImageTrack '{trackedImage.referenceImage.name}'It's being tracked.");
+        }
+        else
+        {
+            Debug.Log($"ImageTrack '{trackedImage.referenceImage.name}'the tracking status of: {trackedImage.trackingState}");
+        }
+
+
+        // 상태가 변경되었을 때만 처리
+        if (_previousTrackingState != currentTrackingState)
+        {
+            _previousTrackingState = currentTrackingState;
+            _trackingStateChangeTime = Time.time; // 상태 변경 시간 기록
+            _isTrackingMessageVisible = false;    // 메시지 표시 여부 초기화
+        }
+
+        // 상태가 안정적으로 유지되었을 때 메시지 표시
+        if (!_isTrackingMessageVisible && Time.time - _trackingStateChangeTime >= _trackingStateStableDuration)
+        {
+            string message = "";
+
+            if (currentTrackingState == TrackingState.Tracking)
+            {
+                message = "가상 콘텐츠를 이미지 위에 배치하고 상호작용을 시작합니다.";
+            }
+            else if (currentTrackingState == TrackingState.Limited)
+            {
+                message = "카메라와 이미지의 거리를 줄이거나 각도를 조정해 주세요.";
+            }
+            else if (currentTrackingState == TrackingState.None)
+            {
+                message = "이미지 추적을 시작하려면 카메라를 이미지에 맞춰주세요.";
+            }
+
+            // 메시지가 비어있지 않으면 표시
+            if (!string.IsNullOrEmpty(message))
+            {
+                UIManager.instance.TreackingStateMessage(message);
+                _isTrackingMessageVisible = true;
+
+                // 일정 시간 후에 메시지 숨김
+                StartCoroutine(HideTrackingMessageAfterDelay(2f));
+            }
+        }
+    }
+
+    private IEnumerator HideTrackingMessageAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        UIManager.instance.HideTrackingStateMessage();
+        _isTrackingMessageVisible = false;
+    }
+
     private void HandleTrackedImage(ARTrackedImage trackedImage)
     {
         string imageName = trackedImage.referenceImage.name;
@@ -199,6 +255,14 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
         if (!_imageNameToChapter.ContainsKey(imageName))
         {
             Debug.LogWarning($"이미지 이름 '{imageName}'이 어떤 챕터에도 매핑되어 있지 않습니다.");
+            return;
+        }
+
+        // 커버 앵커가 완료되지 않았을 경우 처리
+        if (!_isCoverAnchorSet)
+        {
+            // UIManager를 통해 안내 메시지 표시
+            UIManager.instance.ShowMessage("커버 이미지를 인식하여 앵커를 설정해 주세요.");
             return;
         }
 
@@ -227,42 +291,29 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 프리팹의 포지션을 책의 중앙에 위치하기 위한 함수
-    /// </summary>
-    /// <param name="trackedImage"></param>
     private void CenterPosition(ARTrackedImage trackedImage)
     {
         StartCoroutine(CoverAnchorDelay(trackedImage));
     }
 
-
-    /// <summary>
-    /// 인식할 책의 표지를 트래킹하고 표지의 왼쪽 중앙(책을 펼쳤을 때 책의 가운데)에 앵커를 생성하는 코루틴
-    /// 해당 앵커는 이후 생성될 프리팹의 포지션 역할
-    /// </summary>
-    /// <param name="trackedImage"></param>
-    /// <returns></returns>
     private IEnumerator CoverAnchorDelay(ARTrackedImage trackedImage)
     {
-        _coverAnchor = new GameObject("CoverAnchor").AddComponent<ARAnchor>();
+        _coverAnchor = new GameObject("CoverAnchor"); // ARAnchor 제거
         yield return new WaitForSeconds(0.2f);
 
-        //Add
-        Vector3 bookCenterPostion = trackedImage.transform.position - trackedImage.transform.right * (trackedImage.size.x / 2);
-        _coverAnchor.transform.position = bookCenterPostion;
+        Vector3 bookCenterPosition = trackedImage.transform.position - trackedImage.transform.right * (trackedImage.size.x / 2);
+        _coverAnchor.transform.position = bookCenterPosition;
         _coverAnchor.transform.rotation = trackedImage.transform.rotation;
-        testCube.transform.position = _coverAnchor.transform.position;
-        testCube.transform.rotation = _coverAnchor.transform.rotation;
-        prefabPos.text = "표지 확인";
-        prefabRot.text = _coverAnchor.transform.position.ToString();
 
+        // 앵커가 설정되었음을 표시
+        _isCoverAnchorSet = true;
+
+        UIManager.instance.ShowMessage("커버 이미지를 \n 인식하였습니다.");
+
+        // UIManager를 통해 메시지 숨김
+       // UIManager.instance.HideMessage();
     }
 
-    /// <summary>
-    /// 현재 추적된 이미지들을 기반으로 챕터 상태를 업데이트하는 메서드
-    /// </summary>
-    /// <param name="trackedImage">ARTrackedImage 인스턴스 (옵션)</param>
     private void UpdateChapterState(ARTrackedImage trackedImage = null)
     {
         // 추적된 이미지에 기반하여 활성 챕터 수집
@@ -298,10 +349,8 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     _isTimer = false;
                     _timer = 0;
 
-
                     // 현재 챕터 컨트롤러 초기화
                     _currentChapterController = null;
-                    //SoundManager.instance.StopNarration();
 
                     Debug.Log($"PreChapter '{_currentChapter}' UnActive.");
                 }
@@ -315,33 +364,24 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 _isTimer = false;
                 _timer = 0;
 
-
                 if (trackedImage != null)
                 {
                     if (_coverAnchor == null)
                     {
-                        //Add
-                        currentPrefab.transform.localPosition = Vector3.zero;
                         currentPrefab.transform.position = trackedImage.transform.position;
                         currentPrefab.transform.rotation = trackedImage.transform.rotation;
                     }
                     else
                     {
-                        //Add
-                        currentPrefab.transform.localPosition = Vector3.zero;
                         currentPrefab.transform.position = _coverAnchor.transform.position;
                         currentPrefab.transform.rotation = _coverAnchor.transform.rotation;
                     }
                 }
 
-                //SoundManager.instance.PlayNarration(newCurrentChapter);
-
                 Debug.Log($"NewChpter '{newCurrentChapter}' Active.");
 
                 _currentChapter = newCurrentChapter;
 
-                // 일시정지 버튼 표시
-                //UIManager.instance.ShowPauseButton();
                 // 현재 챕터 컨트롤러 가져오기
                 _currentChapterController = currentPrefab.GetComponent<IChapterController>();
                 if (_currentChapterController == null)
@@ -349,41 +389,28 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                     Debug.LogWarning($"Chapter controller not found on prefab '{newCurrentChapter}'.");
                 }
 
-
                 // 음성 인식 기능 활성화
                 ChapterData currentChapterData = GetChapterDataByName(newCurrentChapter);
                 if (currentChapterData.useSpeechRecognition)
                 {
                     Debug.Log("Enabling Speech Recognition");
-                    SpeechToTextManager speechManager = SpeechToTextManager.instance;
-                    if (speechManager != null)
-                    {
-                        speechManager.StartSpeechRecognition();
-                    }
-                    else
-                    {
-                        Debug.LogWarning("SpeechToTextManager not found.");
-                    }
+                    // 음성 인식 관련 코드 추가
                 }
             }
             else
             {
-                Debug.Log($"Keep   '{newCurrentChapter}' current chapter .");
+                Debug.Log($"Keep '{newCurrentChapter}' current chapter.");
                 // 현재 챕터의 위치와 회전을 업데이트
                 GameObject currentPrefab = _spawnedPrefabs[_currentChapter];
                 if (trackedImage != null)
                 {
                     if (_coverAnchor == null)
                     {
-                        //Add
-                        currentPrefab.transform.localPosition = Vector3.zero;
                         currentPrefab.transform.position = trackedImage.transform.position;
                         currentPrefab.transform.rotation = trackedImage.transform.rotation;
                     }
                     else
                     {
-                        //Add
-                        currentPrefab.transform.localPosition = Vector3.zero;
                         currentPrefab.transform.position = _coverAnchor.transform.position;
                         currentPrefab.transform.rotation = _coverAnchor.transform.rotation;
                     }
@@ -398,34 +425,20 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
                 GameObject currentPrefab = _spawnedPrefabs[_currentChapter];
                 currentPrefab.SetActive(false);
 
-                //SoundManager.instance.StopNarration();
-
                 Debug.Log($"Chapter '{_currentChapter}' UnActive.");
 
                 // 음성 인식 기능 비활성화
                 ChapterData currentChapterData = GetChapterDataByName(_currentChapter);
                 if (currentChapterData.useSpeechRecognition)
                 {
-                    SpeechToTextManager speechManager = SpeechToTextManager.instance;
-                    if (speechManager != null)
-                    {
-                        speechManager.StopSpeechRecognition();
-                    }
+                    // 음성 인식 관련 코드 추가
                 }
 
                 _currentChapter = "";
-
-                // 일시정지 버튼 숨김
-                // UIManager.instance.HidePauseButton();
             }
         }
     }
 
-    /// <summary>
-    /// 챕터 이름으로 ChapterData를 가져오는 메서드
-    /// </summary>
-    /// <param name="chapterName">챕터 이름</param>
-    /// <returns>ChapterData</returns>
     private ChapterData GetChapterDataByName(string chapterName)
     {
         foreach (ChapterData chapter in chapters)
@@ -458,8 +471,6 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             }
         }
 
-
-
         // 터치 입력 감지하여 나레이션 일시정지/재개
         if (Input.touchCount > 0)
         {
@@ -478,12 +489,8 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             {
                 if (_currentChapterController != null)
                 {
-                    //SoundManager.instance.ToggleNarrationPause();
-                    //UIManager.instance.UpdatePauseButtonUI();
                     _currentChapterController.TogglePause();
-                   
                 }
-
                 else
                 {
                     Debug.LogWarning("No current chapter controller to toggle pause.");
@@ -504,12 +511,9 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
             if (currentChapterData.useSpeechRecognition)
                 return;
 
-            // SoundManager.instance.ToggleNarrationPause();
-            // UIManager.instance.UpdatePauseButtonUI();
             if (_currentChapterController != null)
             {
                 _currentChapterController.TogglePause();
-                // UIManager.instance.UpdatePauseButtonUI(); // 필요 시 UI 업데이트
             }
             else
             {

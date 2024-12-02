@@ -25,9 +25,9 @@ public class chap10Controller : MonoBehaviour, IChapterController
     private const string CHIMNEY_TAG = "Chimney";
 
     //프리팹 초기화
-   /* [SerializeField] private GameObject chapter10Prefab; // 챕터 7 프리팹
-    [SerializeField] private Transform prefabParent; // 프리팹을 인스턴스화할 부모 오브젝트
-    private GameObject chapter10Instance; // 현재 활성화된 챕터 7 인스턴스*/
+    /* [SerializeField] private GameObject chapter10Prefab; // 챕터 7 프리팹
+     [SerializeField] private Transform prefabParent; // 프리팹을 인스턴스화할 부모 오브젝트
+     private GameObject chapter10Instance; // 현재 활성화된 챕터 7 인스턴스*/
 
     void OnEnable()
     {/*
@@ -52,15 +52,15 @@ public class chap10Controller : MonoBehaviour, IChapterController
         // 타임라인 초기 설정: 재생하지 않고 대기 상태로 설정
         if (playableDirector != null)
         {*/
-            // 타임라인 시작
-            playableDirector.time = 0; // 타임라인 시간 초기화
-            playableDirector.Stop();   // 타임라인 정지
-            playableDirector.Play();   // 타임라인 재생
-     /*   }
-        else
-        {
-            Debug.LogError("[chap10Controller] PlayableDirector not assigned.");
-        }*/
+        // 타임라인 시작
+        playableDirector.time = 0; // 타임라인 시간 초기화
+        playableDirector.Stop();   // 타임라인 정지
+        playableDirector.Play();   // 타임라인 재생
+        /*   }
+           else
+           {
+               Debug.LogError("[chap10Controller] PlayableDirector not assigned.");
+           }*/
     }
 
     private void Start()
@@ -81,6 +81,11 @@ public class chap10Controller : MonoBehaviour, IChapterController
             playableDirector.stopped += OnTimelineStopped; // 타임라인 종료 이벤트 등록
             playableDirector.played += OnTimelinePlayed;   // 타임라인 시작 이벤트 등록
             playableDirector.time = 0; // 타임라인 시간 초기화
+            
+            // 초기 메시지 표시
+            UIManager.instance.ShowMessage("10챕터 시작되었습니다.\n " +
+                "기다려주세요!");
+            
             playableDirector.Play();   // 타임라인 재생
             // Signal Track을 통해 타임라인 중단을 처리하므로 Invoke는 제거
         }
@@ -89,8 +94,7 @@ public class chap10Controller : MonoBehaviour, IChapterController
             Debug.LogError("[chap10Controller] PlayableDirector not assigned.");
         }
 
-        // 초기 메시지 표시
-        UIManager.instance.ShowMessage("10챕터 시작되었습니다. 기다려주세요!");
+
 
         // 재추적 시 오브젝트 상태 초기화
         GameObject wolf = GameObject.FindWithTag(WOLF_TAG);
@@ -147,7 +151,7 @@ public class chap10Controller : MonoBehaviour, IChapterController
                 Debug.Log($"[chap10Controller] {selectedObj.name} selected.");
 
                 // UI 메시지 표시
-                UIManager.instance.ShowMessage("굴뚝으로 늑대를 이동시켜주세요!");
+                UIManager.instance.ShowMessage("굴뚝으로 늑대를\n 이동시켜주세요!");
             }
         }
     }
@@ -204,6 +208,8 @@ public class chap10Controller : MonoBehaviour, IChapterController
 
             // UI 메시지 숨김
             UIManager.instance.HideMessage();
+            // UI 메시지 표시
+            UIManager.instance.ShowMessage("잘했어요!");
 
             Debug.Log("[chap10Controller] Timeline resumed.");
         }

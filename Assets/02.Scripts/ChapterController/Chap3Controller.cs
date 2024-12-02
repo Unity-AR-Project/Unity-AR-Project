@@ -5,7 +5,7 @@ public class Chap3Controller : MonoBehaviour, IChapterController
 {
     [SerializeField]
     private PlayableDirector playableDirector;
-    
+
     private bool isPaused = false; // 일시정지 상태 여부
 
     /*//프리팹 초기화
@@ -14,7 +14,7 @@ public class Chap3Controller : MonoBehaviour, IChapterController
     private GameObject chapter3Instance; // 현재 활성화된 챕터 7 인스턴스
 */
     void OnEnable()
-   {
+    {
         /*
         if (chapter3Instance != null)
         {
@@ -39,20 +39,23 @@ public class Chap3Controller : MonoBehaviour, IChapterController
         {
 */
 
-            // 타임라인 시작
-            playableDirector.time = 0; // 타임라인 시간 초기화
-            playableDirector.Stop();   // 타임라인 정지
-            playableDirector.Play();   // 타임라인 재생
-      /*  }
-        else
-        {
-            Debug.LogError("[chap3Controller] PlayableDirector not assigned.");
-        }*/
+        // 타임라인 시작
+        playableDirector.time = 0; // 타임라인 시간 초기화
+        playableDirector.Stop();   // 타임라인 정지
+                                   // 초기 메시지 표시
+        UIManager.instance.ShowMessage("3챕터 시작되었습니다.\n " +
+            "기다려주세요!");
+        playableDirector.Play();   // 타임라인 재생
+        /*  }
+          else
+          {
+              Debug.LogError("[chap3Controller] PlayableDirector not assigned.");
+          }*/
     }
 
     void Start()
     {
-       // playableDirector.Play(); 
+        // playableDirector.Play(); 
     }
 
 

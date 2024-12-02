@@ -22,7 +22,6 @@ public class chap9Controller : MonoBehaviour, IChapterController
     private bool isPaused = false; // 타임라인 멈춤 상태 추적
     private const double PauseTime = 15.8; // 타임라인 멈출 시점
 
-    private AudioSource audioSource;   // 재생 중인 AudioSource
 
    /* //프리팹 초기화
     [SerializeField] private GameObject chapter9Prefab; // 챕터 7 프리팹
@@ -51,10 +50,13 @@ public class chap9Controller : MonoBehaviour, IChapterController
         if (playableDirector != null)
         {*/
             // 타임라인 시작
-            audioSource.UnPause();
             playableDirector.time = 0; // 타임라인 시간 초기화
             playableDirector.Stop();   // 타임라인 정지
-            playableDirector.Play();   // 타임라인 재생
+                                       // 초기 메시지 표시
+        UIManager.instance.ShowMessage("9챕터 시작되었습니다.\n" +
+            "기다려주세요!");
+
+        playableDirector.Play();   // 타임라인 재생
     /*    }
         else
         {
@@ -68,7 +70,7 @@ public class chap9Controller : MonoBehaviour, IChapterController
         if (playableDirector != null)
         {
             playableDirector.stopped += OnPlayableDirectorStopped;
-            Invoke(nameof(PauseTimelineAtSpecificTime), (float)PauseTime);
+            Invoke("PauseTimelineAtSpecificTime", (float)PauseTime);
         }
 
         if (uiText != null)
@@ -197,9 +199,11 @@ public class chap9Controller : MonoBehaviour, IChapterController
     {
         if (playableDirector != null)
         {
+            // UI 메시지 표시
+            UIManager.instance.ShowMessage("잘했어요!");
+
             playableDirector.Play();
             isPaused = false;
-            audioSource.UnPause(); // 오디오 재개
 
             if (uiText != null)
             {
@@ -218,12 +222,9 @@ public class chap9Controller : MonoBehaviour, IChapterController
             playableDirector.Pause();
             isPaused = true;
 
-            if (uiText != null)
-            {
-                //uiText.gameObject.SetActive(true);
-                //uiText.text = "Throw the apple at the wolf!";
-                UIManager.instance.ShowMessage("사과를 늑대에게 던져주세요~");
-            }
+
+            UIManager.instance.ShowMessage("사과 3개를 \n 늑대에게 던져주세요~");
+            
         }
     }
 
@@ -235,10 +236,7 @@ public class chap9Controller : MonoBehaviour, IChapterController
         }
     }
 
-    public void PauseAudio()
-    {
-        audioSource.Pause(); //오디오 일시정지
-    }
+
 
     /// <summary>
     /// 타임라인 일시정지/재개 토글

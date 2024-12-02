@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
 
@@ -20,6 +19,9 @@ public class UIManager : MonoBehaviour
     [Tooltip("메시지 텍스트 프리팹 (TMP)")]
     [SerializeField] private GameObject messageTextPrefab;
 
+    [Tooltip("TrackingState 메시지 텍스트 프리팹 (TMP)")]
+    [SerializeField] private GameObject TrackingStateTextPrefab;
+
     [Tooltip("사용자 메뉴얼 프리팹")]
     [SerializeField] private GameObject userManualPrefab; 
 
@@ -27,6 +29,7 @@ public class UIManager : MonoBehaviour
     private Button pauseButton;
     private GameObject loadingUI;
     private TextMeshProUGUI messageText;
+    private TextMeshProUGUI trackingStateText;
     private GameObject userManual; // 사용자 메뉴얼 인스턴스
 
     // Controller: 상태 관리
@@ -151,6 +154,28 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("Message Text Prefab이 설정되지 않았습니다.");
         }
+
+        // TrackingMessage Text Initialization (TMP)
+        if (TrackingStateTextPrefab != null)
+        {
+            GameObject messageTextObj = Instantiate(TrackingStateTextPrefab, canvas.transform);
+            trackingStateText = messageTextObj.GetComponent<TextMeshProUGUI>();
+            if (trackingStateText != null)
+            {
+                trackingStateText.gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.LogError("trackingStateText Text Prefab에 TextMeshProUGUI 컴포넌트가 없습니다.");
+            }
+        }
+        else
+        {
+            Debug.LogError("trackingStateText Text Prefab이 설정되지 않았습니다.");
+        }
+
+
+
     }
 
     /// <summary>
@@ -242,7 +267,31 @@ public class UIManager : MonoBehaviour
             messageText.gameObject.SetActive(true);
             messageText.text = message;
             // 일정 시간 후에 자동으로 숨김
-            Invoke("HideMessage", 3f);
+            Invoke("HideMessage", 4f);
+        }
+    }
+
+    /// <summary>
+    /// TreackingState 메시지를 화면에 표시합니다.
+    /// </summary>
+    /// <param name="message">표시할 메시지</param>
+    public void TreackingStateMessage(string message)
+    {
+        if (trackingStateText != null)
+        {
+            Debug.Log("messageText: " + messageText);
+            trackingStateText.gameObject.SetActive(true);
+            trackingStateText.text = message;
+            // 일정 시간 후에 자동으로 숨김
+            //Invoke("HideTrackingStateMessage", 2f);
+        }
+    }
+
+    public void HideTrackingStateMessage()
+    {
+        if (trackingStateText != null)
+        {
+            trackingStateText.gameObject.SetActive(false);
         }
     }
 

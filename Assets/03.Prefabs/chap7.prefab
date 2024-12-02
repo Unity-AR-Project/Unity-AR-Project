@@ -301,8 +301,8 @@ Transform:
   m_GameObject: {fileID: 6798762013047686073}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0289, y: 0, z: 0}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_LocalPosition: {x: 0, y: 0, z: -0.01}
+  m_LocalScale: {x: 0.018, y: 0.018, z: 0.018}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6994791154706702827}
@@ -372,9 +372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playableDirector: {fileID: 1220613647109257129}
-  chapter7Prefab: {fileID: 6798762013047686073}
-  prefabParent: {fileID: 3480886868405693410, guid: bcc71e39d03c3e74e9e3aa6f4501d4a2,
-    type: 3}
 --- !u!114 &11690240814448777
 MonoBehaviour:
   m_ObjectHideFlags: 0
