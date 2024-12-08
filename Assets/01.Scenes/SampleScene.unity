@@ -1854,7 +1854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b716b0fed760e45948d0040ba5b80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiKey: AIzaSyDCX39da3FUnBySCeMWQLQdhg8k80ztG0U
+  apiKey: 
   sampleRate: 16000
   recordingLength: 2
   amplificationFactor: 1.25
@@ -3085,7 +3085,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1678154318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3118,7 +3118,7 @@ MonoBehaviour:
   - name: chap9
     clip: {fileID: 8300000, guid: 0d977cd1243c21f42a901c4457ac335f, type: 3}
   - name: chap10
-    clip: {fileID: 8300000, guid: 137839403102642449c606441e73ec15, type: 3}
+    clip: {fileID: 8300000, guid: d4bbbe00d69dc60499a819c889058668, type: 3}
   sfxClipList:
   - name: door
     clip: {fileID: 8300000, guid: 1e092443fcdf9c64290f4848a9349440, type: 3}

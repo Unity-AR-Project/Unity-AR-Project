@@ -23,6 +23,8 @@ public class ARImageMultipleObjectsSpawner : MonoBehaviour
     [Tooltip("각 챕터에 대응하는 데이터 설정")]
     public ChapterData[] chapters;
 
+    
+
     private Dictionary<string, ChapterData> _imageNameToChapter = new Dictionary<string, ChapterData>();
     private Dictionary<string, GameObject> _spawnedPrefabs = new Dictionary<string, GameObject>();
     private HashSet<string> _trackedImages = new HashSet<string>();
